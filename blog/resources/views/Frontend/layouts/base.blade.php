@@ -30,13 +30,13 @@ https://templatemo.com/tm-551-stand-blog
 <body>
 
     <!-- ***** Preloader Start ***** -->
-    <!-- <div id="preloader">
+    <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
             <div></div>
         </div>
-    </div> -->
+    </div>
     <!-- ***** Preloader End ***** -->
 
     <!-- Header -->
@@ -52,7 +52,7 @@ https://templatemo.com/tm-551-stand-blog
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Home
+                            <a class="nav-link" href="/">Home
                                 <!-- <span class="sr-only">(current)</span> -->
                             </a>
                         </li>

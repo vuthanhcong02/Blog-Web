@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-
-class PostController extends Controller
+use App\Models\PostComment;
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,8 @@ class PostController extends Controller
     public function index()
     {
         //
-        
+        $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
+        return view('Frontend.home', compact('posts_featured'));
     }
 
     /**
@@ -28,7 +28,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -36,7 +36,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(string $id)
     {
         //
     }
@@ -44,7 +44,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +52,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,7 +60,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(string $id)
     {
         //
     }
