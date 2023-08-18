@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+    public $primaryKey = 'id';
+    protected $fillable = [
+        'name',
+    ];
     use HasFactory;
 }

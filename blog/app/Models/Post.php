@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    public $primaryKey = 'id';
+    protected $fillable = [
+        'title',
+        'content',
+        'image',
+        'user_id',
+        'category_id',
+
+    ];
 }
