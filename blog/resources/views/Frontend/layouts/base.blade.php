@@ -60,13 +60,11 @@ https://templatemo.com/tm-551-stand-blog
                             <a class="nav-link" href="about.html">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="blog.html">Blog Entries</a>
+                            <a class="nav-link" href="blog.html">Blog</a>
                         </li>
+                       
                         <li class="nav-item">
-                            <a class="nav-link" href="post-details.html">Post Details</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact Us</a>
+                            <a class="nav-link" href="contact.html">Contact</a>
                         </li>
                     </ul>
                 </div>
