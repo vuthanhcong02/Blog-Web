@@ -51,19 +51,18 @@ https://templatemo.com/tm-551-stand-blog
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item {{request()->segment(1) == '' ? 'active' : ''}}">
                             <a class="nav-link" href="/">Home
                                 <!-- <span class="sr-only">(current)</span> -->
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{request()->segment(1) == 'blogs' ? 'active' : ''}}">
+                            <a class="nav-link" href="/blogs">Blog</a>
+                        </li>
+                        <li class="nav-item {{request()->segment(1) == '/about' ? 'active' : ''}}">
                             <a class="nav-link" href="about.html">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="blog.html">Blog</a>
-                        </li>
-                       
-                        <li class="nav-item">
+                        <li class="nav-item {{request()->segment(1) == '/contact' ? 'active' : ''}}">
                             <a class="nav-link" href="contact.html">Contact</a>
                         </li>
                     </ul>

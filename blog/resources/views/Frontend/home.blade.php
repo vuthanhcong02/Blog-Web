@@ -1,5 +1,5 @@
 @extends('Frontend.layouts.base')
-@section('title','Blog')
+@section('title','Home')
 @section('body')
 
 <div class="main-banner header-text mt-4">
@@ -38,7 +38,11 @@
                 <div class="all-blog-posts">
                     <div class="row" id="offset" data-initial-posts-count="{{ count($posts_list) }}">
                         <div id="posts-container">
-                            @include('Frontend.components.post',['posts_more' => $posts_list])
+                        @foreach($posts_list as $post)
+                            <div class="col-lg-12">
+                                @include('Frontend.components.post',['posts_more' => $posts_list])
+                            </div>
+                        @endforeach
                         </div>
                         <div class="col-lg-12 ">
                             <div class="main-view-more">
@@ -65,14 +69,7 @@
                                 </div>
                                 <div class="content">
                                     <ul>
-                                        @foreach($posts_recent as $post)
-                                        <li>
-                                            <a href="">
-                                                <h5>{{$post->title}}</h5>
-                                                <span>{{$post->created_at->format('d-m-Y')}}</span>
-                                            </a>
-                                        </li>
-                                        @endforeach
+                                        @include('Frontend.partials.listPostRecent')
                                     </ul>
                                 </div>
                             </div>

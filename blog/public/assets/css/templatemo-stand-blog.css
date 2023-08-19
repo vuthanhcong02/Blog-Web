@@ -1003,6 +1003,12 @@ footer p a:hover {
 .main-view-more{
 	text-align: center;
 }
+.page-item.active .page-link {
+    background-color: #f48840;
+    border-color: #f48840;
+	color: #fff;
+	outline: none;
+}
 /* Responsive Style */
 @media (max-width: 1250px) {
 	.owl-banner .owl-nav .owl-prev {
