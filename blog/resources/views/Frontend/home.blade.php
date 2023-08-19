@@ -36,51 +36,13 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="all-blog-posts">
-                    <div class="row">
-                        @foreach($posts_list as $post)
-                        <div class="col-lg-12">
-                            <div class="blog-post">
-                                <div class="blog-thumb">
-                                    <img src="assets/images/{{$post->image}}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <span>{{$post->category->name}}</span>
-                                    <a href="post-details.html">
-                                        <h4>{{$post->title}}</h4>
-                                    </a>
-                                    <ul class="post-info">
-                                        <li><a href="#">Bởi : {{$post->user->name}}</a></li>
-                                        <li><a href="#">{{ $post->created_at->format('d-m-Y') }}</a></li>
-                                        <li><a href="#">Like : {{$post->like_count}}</a></li>
-                                        <li><a href="#">{{count($post->comments)}} Comments</a></li>
-                                    </ul>
-                                    <p>{{ \Illuminate\Support\Str::limit($post->content, 150) }}</p>
-                                    <div class="post-options">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ul class="post-tags">
-                                                    <li><i class="fa fa-tags"></i></li>
-                                                    @foreach($post->tags as $index => $tag)
-                                                    <li><a href="#">{{ $tag->name }}</a>{{ $index !== count($post->tags) - 1 ? ',' : '' }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="post-share">
-                                                    <li><i class="fa fa-share-alt"></i></li>
-                                                    <li><a href="#">Facebook</a>,</li>
-                                                    <li><a href="#"> Twitter</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row" id="offset" data-initial-posts-count="{{ count($posts_list) }}">
+                        <div id="posts-container">
+                            @include('Frontend.components.post',['posts_more' => $posts_list])
                         </div>
-                        @endforeach
-                        <div class="col-lg-12">
-                            <div class="main-button">
-                                <a href="blog.html">View More</a>
+                        <div class="col-lg-12 ">
+                            <div class="main-view-more">
+                                <button id="view-more">View More</button>
                             </div>
                         </div>
                     </div>
@@ -141,4 +103,68 @@
         </div>
     </div>
 </section>
+<script>
+    var offset = document.getElementById('offset').getAttribute('data-initial-posts-count');
+    var viewMoreButton = document.getElementById('view-more');
+    var postsContainer = document.getElementById('posts-container');
+
+    viewMoreButton.addEventListener('click', function() {
+        fetch('/more-post?offset=' + offset)
+            .then(response => response.json())
+            .then(posts => {
+                if (posts.length > 0) {
+                    var newPosts = '';
+
+                    posts.forEach(post => {
+                        const createdAt = new Date(post.created_at);
+                        const formattedDate = `${createdAt.getDate()}-${createdAt.getMonth() + 1}-${createdAt.getFullYear()}`;
+                        newPosts += `<div class="col-lg-12">
+                        <div class="blog-post">
+                            <div class="blog-thumb">
+                                <img src="assets/images/${post.image}" alt="">
+                            </div>
+                            <div class="down-content">
+                            ${post.category ? `<span>${post.category.name}</span>` : ''}
+                                <a href="post-details.html">
+                                    <h4>${post.title}</h4>
+                                </a>
+                                <ul class="post-info">
+                                    ${post.user ? `<li><a href="#">Bởi : ${post.user.name}</a></li>` : ''}
+                                    <li><a href="#">${formattedDate}</a></li>
+                                    <li><a href="#">Like : ${post.like_count}</a></li>
+                                    ${post.comments ? `<li><a href="#">${post.comments.length} Comments</a></li>` : ''}
+                                </ul>
+                                <p>${post.content.substr(0, 150)}...</p>
+                                <div class="post-options">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <ul class="post-tags">
+                                                <li><i class="fa fa-tags"></i></li>
+                                                ${post.tags.map((tag, index) => `
+                                                    <li><a href="#">${tag.name}${index !== post.tags.length - 1 ? ',' : ''}</a></li>
+                                                `).join('')}
+                                            </ul>
+                                        </div>
+                                        <div class="col-6">
+                                            <ul class="post-share">
+                                                <li><i class="fa fa-share-alt"></i></li>
+                                                <li><a href="#">Facebook</a>,</li>
+                                                <li><a href="#"> Twitter</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>`;
+            });
+                    postsContainer.insertAdjacentHTML('beforeend', newPosts);
+                    offset += posts.length;
+                }
+                if (posts.length < 4) {
+                    viewMoreButton.style.display = 'none';
+                }
+            });
+    });
+</script>
 @endsection

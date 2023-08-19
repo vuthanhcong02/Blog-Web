@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostComment;
+
 class HomeController extends Controller
 {
     /**
@@ -14,10 +15,21 @@ class HomeController extends Controller
     {
         //
         $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
-        $posts_list = Post::orderBy('created_at', 'asc')->paginate(4);
-        return view('Frontend.home', compact('posts_featured','posts_list'));
+        $posts_list = Post::take(4)->get();
+        return view('Frontend.home', compact('posts_featured', 'posts_list'));
     }
+    public function loadMore(Request $request)
+    {
+        $offset = $request->input('offset', 0);
+        $limit = 4; // Số lượng bài viết mỗi lần tải
 
+        $posts = Post::with(['category', 'user', 'comments', 'tags'])
+             ->skip($offset)
+             ->take($limit)
+             ->get();
+
+        return response()->json($posts);
+    }
     /**
      * Show the form for creating a new resource.
      */

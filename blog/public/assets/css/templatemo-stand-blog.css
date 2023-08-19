@@ -990,7 +990,19 @@ footer p a:hover {
 	background-color: #f48840;
 }
 
+#view-more {
+	padding: 8px 30px;
+	text-align: center;
+	background-color: #f48840;
+	outline: none;
+	border: none;
+	color: #fff;
+	cursor: pointer;
 
+}
+.main-view-more{
+	text-align: center;
+}
 /* Responsive Style */
 @media (max-width: 1250px) {
 	.owl-banner .owl-nav .owl-prev {
