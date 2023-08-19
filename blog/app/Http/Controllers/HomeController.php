@@ -14,7 +14,8 @@ class HomeController extends Controller
     {
         //
         $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
-        return view('Frontend.home', compact('posts_featured'));
+        $posts_list = Post::orderBy('created_at', 'asc')->paginate(4);
+        return view('Frontend.home', compact('posts_featured','posts_list'));
     }
 
     /**
