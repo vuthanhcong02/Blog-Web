@@ -1015,6 +1015,10 @@ a.active{
 li.active-tag{
 	background-color: #f48840 !important;
 }
+.hidden {
+    display: none;
+}
+
 /* Responsive Style */
 @media (max-width: 1250px) {
 	.owl-banner .owl-nav .owl-prev {

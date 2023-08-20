@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="down-content">
                                     <span>{{$post->category->name}}</span>
-                                    <a href="post-details.html">
+                                    <a href="/blogs/details/{{$post->id}}">
                                         <h4>{{$post->title}}</h4>
                                     </a>
                                     <ul class="post-info">
