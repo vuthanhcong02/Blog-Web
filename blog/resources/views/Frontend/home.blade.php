@@ -13,7 +13,7 @@
                         <div class="meta-category">
                             <span>{{$post->category->name}}</span>
                         </div>
-                        <a href="/blogs/details/{{$post->id}}">
+                        <a href="/blogs/{{str_replace(' ', '-', strtolower($post->title))}}">
                             <h4>{{$post->title}}</h4>
                         </a>
                         <ul class="post-info">
@@ -116,7 +116,7 @@
                             </div>
                             <div class="down-content">
                             ${post.category ? `<span>${post.category.name}</span>` : ''}
-                                <a href="/blogs/details/${post.id}">
+                                <a href="/blogs/${post.title.replace(/\s+/g, '-').toLowerCase()}">
                                     <h4>${post.title}</h4>
                                 </a>
                                 <ul class="post-info">

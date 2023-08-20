@@ -78,15 +78,15 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(String $id)
+    public function show(Request $request,$titleName)
     {
         //
-    
-        $post = Post::findOrFail($id);
+        $title = str_replace('-', ' ', $titleName);
+        // echo $title;
+        $post = Post::where('title', $title)->first();
         if($post){
             return view('Frontend.blog.show', compact('post'));
         }
-
     }
 
     /**

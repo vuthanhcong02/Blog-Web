@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="down-content">
                                     <span>{{$post->category->name}}</span>
-                                    <a href="/blogs/details/{{$post->id}}">
+                                    <a href="/blogs/{{str_replace(' ', '-', strtolower($post->title))}}">
                                         <h4>{{$post->title}}</h4>
                                     </a>
                                     <ul class="post-info">
