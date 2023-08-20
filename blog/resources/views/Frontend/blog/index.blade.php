@@ -24,6 +24,7 @@
             <div class="col-lg-8">
                 <div class="all-blog-posts">
                     <div class="row">
+                        @if($posts -> count() > 0)
                         @foreach($posts as $post)
                         <div class="col-lg-6">
                             <div class="blog-post">
@@ -56,6 +57,9 @@
                             </div>
                         </div>
                         @endforeach
+                        @else
+                            @include('Frontend.components.PostnotFound')
+                        @endif
                         <div class="col-lg-12">
                             {{$posts->links('pagination::bootstrap-5')}}
                         </div>
