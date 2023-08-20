@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -11,10 +11,25 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $posts = Post::orderBy('created_at', 'desc')->paginate(4);
+        $search = $request->search ??'';
+        if($search != ''){
+            $posts = Post::where(function($query) use ($search){
+                $query->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('content', 'like', '%'.$search.'%')
+                    ->orWhereHas('category', function($query) use ($search){
+                        $query->where('name', 'like', '%'.$search.'%');
+                    })                   
+                    ->orWhereHas('tags', function($query) use ($search){
+                        $query->where('name', 'like', '%'.$search.'%');
+                    });
+            })->orderBy('created_at', 'desc')->paginate(4);
+        }
+        else{
+            $posts = Post::orderBy('created_at', 'desc')->paginate(4);
+        }
     
         return view('Frontend.blog.index', compact('posts'));
     }

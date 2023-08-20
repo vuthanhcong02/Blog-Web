@@ -11,23 +11,26 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
+
         $posts_list = Post::take(4)->get();
-       
+        $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
         return view('Frontend.home', compact('posts_featured', 'posts_list'));
     }
     public function loadMore(Request $request)
     {
+
         $offset = $request->input('offset', 0);
         $limit = 4; // Số lượng bài viết mỗi lần tải
 
+        // $posts = Post::skip($offset)->take($limit)->get();
         $posts = Post::with(['category', 'user', 'comments', 'tags'])
-             ->skip($offset)
-             ->take($limit)
-             ->get();
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
 
         return response()->json($posts);
     }
