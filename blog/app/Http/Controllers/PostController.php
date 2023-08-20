@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
+use App\Models\Tag;
 class PostController extends Controller
 {
     /**
@@ -40,6 +41,18 @@ class PostController extends Controller
             $category = Category::where('name', $categoryName)->first();
             // echo $category;
             $posts  = Post::where('category_id', $category->id)->orderBy('created_at', 'desc')->paginate(4);
+        }
+        else{
+            $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
+        }
+        return view('Frontend.blog.index', compact('posts'));
+    }
+    public function getPostByTag(Request $request, $tagName){
+        $tag = str_replace('-', ' ', $tagName);
+        if($tag){
+            $posts  = Post::whereHas('tags', function($query) use ($tag){
+                $query->where('name', $tag);
+            })->orderBy('created_at', 'desc')->paginate(4);
         }
         else{
             $posts  = Post::orderBy('created_at', 'desc')->paginate(4);

@@ -18,4 +18,5 @@ Route::get('/more-post',[HomeController::class, 'loadMore']);
 Route::prefix('/blogs')->group(function(){
     Route::get('/', [PostController::class, 'index']);
     Route::get('/{categoryName}', [PostController::class, 'getPostByCategory']);
+    Route::get('/tag/{tagName}', [PostController::class, 'getPostByTag']);
 });
