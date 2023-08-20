@@ -1009,6 +1009,9 @@ footer p a:hover {
 	color: #fff;
 	outline: none;
 }
+a.active{
+	color: #f48840 !important;
+}
 /* Responsive Style */
 @media (max-width: 1250px) {
 	.owl-banner .owl-nav .owl-prev {

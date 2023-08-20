@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-
+use App\Models\Category;
 class PostController extends Controller
 {
     /**
@@ -33,7 +33,19 @@ class PostController extends Controller
     
         return view('Frontend.blog.index', compact('posts'));
     }
-
+    public function getPostByCategory(Request $request, $categoryName){
+       $categoryName = str_replace('-', ' ', $categoryName);
+    //    echo $categoryName;
+        if($categoryName){
+            $category = Category::where('name', $categoryName)->first();
+            // echo $category;
+            $posts  = Post::where('category_id', $category->id)->orderBy('created_at', 'desc')->paginate(4);
+        }
+        else{
+            $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
+        }
+        return view('Frontend.blog.index', compact('posts'));
+    }
     /**
      * Show the form for creating a new resource.
      */

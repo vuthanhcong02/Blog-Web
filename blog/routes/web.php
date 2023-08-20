@@ -15,4 +15,7 @@ use App\Http\Controllers\PostController;
 */
 Route::get('/',[HomeController::class, 'index']);
 Route::get('/more-post',[HomeController::class, 'loadMore']);
-Route::resource('blogs', PostController::class);
+Route::prefix('/blogs')->group(function(){
+    Route::get('/', [PostController::class, 'index']);
+    Route::get('/{categoryName}', [PostController::class, 'getPostByCategory']);
+});
