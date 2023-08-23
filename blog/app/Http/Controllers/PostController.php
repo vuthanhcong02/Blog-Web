@@ -7,6 +7,10 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\PostComment;
+use Illuminate\Support\Facades\Validator;
+
+
 class PostController extends Controller
 {
     /**
@@ -22,7 +26,7 @@ class PostController extends Controller
                     ->orWhere('content', 'like', '%'.$search.'%')
                     ->orWhereHas('category', function($query) use ($search){
                         $query->where('name', 'like', '%'.$search.'%');
-                    })                   
+                    })
                     ->orWhereHas('tags', function($query) use ($search){
                         $query->where('name', 'like', '%'.$search.'%');
                     });
@@ -31,7 +35,7 @@ class PostController extends Controller
         else{
             $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         }
-    
+
         return view('Frontend.blog.index', compact('posts'));
     }
     public function getPostByCategory(Request $request, $categoryName){
@@ -82,13 +86,72 @@ class PostController extends Controller
     {
         //
         $title = str_replace('-', ' ', $titleName);
+        $post_id = Post::where('title', $title)->first()->id;
+        $comments = Post::findOrFail($post_id);
+        $list_comments = $comments->comments()->whereNull('parent_id')->orderBy('created_at', 'desc')->get();
         // echo $title;
         $post = Post::where('title', $title)->first();
         if($post){
-            return view('Frontend.blog.show', compact('post'));
+            return view('Frontend.blog.show', compact('post', 'list_comments'));
         }
     }
+    public function postComment(Request $request,String $id){
+        //
+        $title = str_replace('-', ' ', $id);
+        $post_id = Post::where('title', $title)->first()->id;
+        $message = $request->message;
+        $dataToValidate = [
+            'message' => $message,
+        ];
+        $validator = Validator::make($dataToValidate,[
+            'message' => 'required|max:500|min:1',
+        ]);
+        if($validator->fails()){
+            // return response()->json([
+            //     'status' => false,
+            //     'errors' => $validator->errors()
+            // ]);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        else{
+            $comment = new PostComment();
+            $comment->content = $message;
+            $comment->user_id = 1; // mặc định test;
+            $comment->post_id = $post_id;
+            // dd($comment);
+            $comment->save();
+            return redirect()->back();
+        }
+    }
+    function postReply(Request $request){
 
+        $post_id = $request->post_id;
+        $parent_id = $request->comment_parent_id;
+        $message = $request->message_reply;
+        $dataToValidate = [
+            'message' => $message,
+        ];
+        $validator = Validator::make($dataToValidate,[
+            'message' => 'required|max:500|min:1',
+        ]);
+        if($validator->fails()){
+            // return response()->json([
+            //     'status' => false,
+            //     'errors' => $validator->errors()
+            // ]);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        else{
+            $comment = new PostComment();
+            $comment->content = $message;
+            $comment->user_id = 1; // mặc định test;
+            $comment->post_id = $post_id; // mặc định test;
+            $comment->parent_id = $parent_id;
+            // dd($comment);
+            $comment->save();
+            return redirect()->back();
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      */

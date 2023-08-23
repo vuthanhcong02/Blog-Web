@@ -20,4 +20,7 @@ Route::prefix('/blogs')->group(function(){
     Route::get('/{titleName}', [PostController::class, 'show']);
     Route::get('/category/{categoryName}', [PostController::class, 'getPostByCategory']);
     Route::get('/tag/{tagName}', [PostController::class, 'getPostByTag']);
+    Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment');
+    Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply');
 });
+

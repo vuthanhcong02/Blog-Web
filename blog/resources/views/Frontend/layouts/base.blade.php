@@ -3,6 +3,7 @@
 
 <head>
     <base href="{{asset('/')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -102,6 +103,7 @@ https://templatemo.com/tm-551-stand-blog
     <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Additional Scripts -->
+    <script src="{{asset('assets/js/main.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
     <script src="{{asset('assets/js/owl.js')}}"></script>
     <script src="{{asset('assets/js/slick.js')}}"></script>
