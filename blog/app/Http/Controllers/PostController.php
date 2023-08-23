@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
@@ -19,46 +20,45 @@ class PostController extends Controller
     public function index(Request $request)
     {
         //
-        $search = $request->search ??'';
-        if($search != ''){
-            $posts = Post::where(function($query) use ($search){
-                $query->where('title', 'like', '%'.$search.'%')
-                    ->orWhere('content', 'like', '%'.$search.'%')
-                    ->orWhereHas('category', function($query) use ($search){
-                        $query->where('name', 'like', '%'.$search.'%');
+        $search = $request->search ?? '';
+        if ($search != '') {
+            $posts = Post::where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
                     })
-                    ->orWhereHas('tags', function($query) use ($search){
-                        $query->where('name', 'like', '%'.$search.'%');
+                    ->orWhereHas('tags', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
                     });
             })->orderBy('created_at', 'desc')->paginate(4);
-        }
-        else{
+        } else {
             $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         }
 
         return view('Frontend.blog.index', compact('posts'));
     }
-    public function getPostByCategory(Request $request, $categoryName){
-       $categoryName = str_replace('-', ' ', $categoryName);
-    //    echo $categoryName;
-        if($categoryName){
+    public function getPostByCategory(Request $request, $categoryName)
+    {
+        $categoryName = str_replace('-', ' ', $categoryName);
+        //    echo $categoryName;
+        if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
             // echo $category;
             $posts  = Post::where('category_id', $category->id)->orderBy('created_at', 'desc')->paginate(4);
-        }
-        else{
+        } else {
             $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
         }
         return view('Frontend.blog.index', compact('posts'));
     }
-    public function getPostByTag(Request $request, $tagName){
+    public function getPostByTag(Request $request, $tagName)
+    {
         $tag = str_replace('-', ' ', $tagName);
-        if($tag){
-            $posts  = Post::whereHas('tags', function($query) use ($tag){
+        if ($tag) {
+            $posts  = Post::whereHas('tags', function ($query) use ($tag) {
                 $query->where('name', $tag);
             })->orderBy('created_at', 'desc')->paginate(4);
-        }
-        else{
+        } else {
             $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
         }
         return view('Frontend.blog.index', compact('posts'));
@@ -82,20 +82,25 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,$titleName)
+    public function show(Request $request, $titleName)
     {
         //
         $title = str_replace('-', ' ', $titleName);
-        $post_id = Post::where('title', $title)->first()->id;
+
+        // Sử dụng \ để escape các ký tự đặc biệt trong title
+        $escapedTitle = addcslashes($title, '%_');
+        $post = Post::where('title', 'LIKE', '%' . $escapedTitle . '%')->first();
+
+        if ($post) {
+            $post_id = $post->id;
+        }
         $comments = Post::findOrFail($post_id);
         $list_comments = $comments->comments()->whereNull('parent_id')->orderBy('created_at', 'desc')->get();
         // echo $title;
-        $post = Post::where('title', $title)->first();
-        if($post){
-            return view('Frontend.blog.show', compact('post', 'list_comments'));
-        }
+        return view('Frontend.blog.show', compact('post', 'list_comments'));
     }
-    public function postComment(Request $request,String $id){
+    public function postComment(Request $request, String $id)
+    {
         //
         $title = str_replace('-', ' ', $id);
         $post_id = Post::where('title', $title)->first()->id;
@@ -103,17 +108,16 @@ class PostController extends Controller
         $dataToValidate = [
             'message' => $message,
         ];
-        $validator = Validator::make($dataToValidate,[
+        $validator = Validator::make($dataToValidate, [
             'message' => 'required|max:500|min:1',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             // return response()->json([
             //     'status' => false,
             //     'errors' => $validator->errors()
             // ]);
             return redirect()->back()->withErrors($validator)->withInput();
-        }
-        else{
+        } else {
             $comment = new PostComment();
             $comment->content = $message;
             $comment->user_id = 1; // mặc định test;
@@ -123,7 +127,8 @@ class PostController extends Controller
             return redirect()->back();
         }
     }
-    function postReply(Request $request){
+    function postReply(Request $request)
+    {
 
         $post_id = $request->post_id;
         $parent_id = $request->comment_parent_id;
@@ -131,17 +136,16 @@ class PostController extends Controller
         $dataToValidate = [
             'message' => $message,
         ];
-        $validator = Validator::make($dataToValidate,[
+        $validator = Validator::make($dataToValidate, [
             'message' => 'required|max:500|min:1',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             // return response()->json([
             //     'status' => false,
             //     'errors' => $validator->errors()
             // ]);
             return redirect()->back()->withErrors($validator)->withInput();
-        }
-        else{
+        } else {
             $comment = new PostComment();
             $comment->content = $message;
             $comment->user_id = 1; // mặc định test;
