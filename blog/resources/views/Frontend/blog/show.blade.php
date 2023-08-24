@@ -54,7 +54,16 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-3">
+                                                    <div class="d-flex align-content-center" style="cursor: pointer"
+                                                        onclick="comment(this)">
+                                                        <ul class="post-share">
+                                                            <li><i class="bi bi-chat-dots"></i></li>
+                                                        </ul>
+                                                        <div>Bình luận</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
                                                     <ul class="post-share">
                                                         <li><i class="fa fa-share-alt"></i></li>
                                                         <li><a href="#">Facebook</a>,</li>
@@ -127,7 +136,8 @@
                                                                 style="cursor: pointer">
                                                                 <i class="bi bi-reply "></i>
                                                                 <p class="mb-0 p-2 " href="javascript:void(0)"
-                                                                    onclick="reply(this)" data-comment-id="{{ $comment->id }}">Reply</p>
+                                                                    onclick="reply(this)"
+                                                                    data-comment-id="{{ $comment->id }}">Reply</p>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -138,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="reply-form hidden">
-                                <div class="card-footer py-3 border-0">
+                                <div class=" py-3 border-0">
                                     <div class="d-flex flex-start w-100">
                                         <img class="rounded-circle shadow-1-strong me-3 m-2"
                                             src="assets/images/avatar/{{ $comment->user->avatar ?? 'default-avatar.jpeg' }}"
@@ -154,41 +164,35 @@
                                                     <button type="submit" class="btn  btn-sm m-1"
                                                         style="background-color: #f48840; color: white">Post
                                                         comment</button>
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm m-1"
-                                                        id="cancelComment" onclick="cancelComment(this)">Cancel</button>
+                                                    <a href="javascript:void(0)" type="button" class="btn btn-outline-secondary btn-sm m-1"
+                                                        id="cancelCommentReply" onclick="cancelCommentReply(this)">Cancel</a>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="sidebar-item submit-comment">
-                                    <div class="sidebar-heading">
-                                        <h2>Your comment</h2>
-                                    </div>
-                                    <div class="card-footer py-3 border-0">
-                                        <form action="" method="post" id="commentForm"
-                                            data-post-title="{{ $post->title }}">
-                                            @csrf
-                                            <div class="d-flex flex-start w-100">
-                                                <img class="rounded-circle shadow-1-strong me-3 m-2"
-                                                    src="assets/images/avatar/{{ $post->user->avatar ?? 'default-avatar.jpeg' }}"
-                                                    alt="avatar" width="40" height="40" />
-                                                <div class="form-outline w-100">
-                                                    <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;" name="message"
-                                                        id="commentContent"></textarea>
-                                                    <label class="form-label" for="textAreaExample">Message</label>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-end">
-                                                <button class="btn btn-primary btn-sm m-1" id="postCommentButton">Post
-                                                    comment</button>
-                                            </div>
-                                        </form>
+                            <!--comment form-->
+                            <form action="" method="post" id="commentForm" data-post-title="{{ $post->title }}"
+                                class="commentForm hidden">
+                                @csrf
+                                <div class="d-flex flex-start w-100">
+                                    <img class="rounded-circle shadow-1-strong me-3 m-2"
+                                        src="assets/images/avatar/{{ $post->user->avatar ?? 'default-avatar.jpeg' }}"
+                                        alt="avatar" width="40" height="40" />
+                                    <div class="form-outline w-100">
+                                        <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;" name="message"
+                                            id="commentContent"></textarea>
+                                        <label class="form-label" for="textAreaExample">Message</label>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-sm m-1" id="postCommentButton" style="background-color: #f48840; color: white">
+                                        Sent</button>
+                                    <a  href="javascript:void(0)" type="button" class="btn btn-outline-secondary btn-sm m-1" id="cancelComment" onclick="cancelComment(this)">Cancel</a>
+                                </div>
+                            </form>
+                            <!-- end comment-form-->
                         </div>
                     </div>
                 </div>
@@ -247,8 +251,16 @@
             $('.reply-form').toggle('hidden');
         }
 
-        function cancelComment(caller) {
+        function cancelCommentReply(caller) {
             $(caller).closest('.reply-form').toggle('hidden');
+        }
+
+        function comment(caller) {
+            $('.commentForm').insertAfter($(caller).closest('.blog-post'));
+            $('.commentForm').toggle('hidden');
+        }
+        function cancelComment(caller) {
+            $(caller).closest('.commentForm').toggle('hidden');
         }
         document.addEventListener("DOMContentLoaded", function(event) {
             var scrollpos = localStorage.getItem('scrollpos');

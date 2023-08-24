@@ -103,7 +103,14 @@ class PostController extends Controller
     {
         //
         $title = str_replace('-', ' ', $id);
-        $post_id = Post::where('title', $title)->first()->id;
+
+        // Sử dụng \ để escape các ký tự đặc biệt trong title
+        $escapedTitle = addcslashes($title, '%_');
+        $post = Post::where('title', 'LIKE', '%' . $escapedTitle . '%')->first();
+
+        if ($post) {
+            $post_id = $post->id;
+        }
         $message = $request->message;
         $dataToValidate = [
             'message' => $message,
