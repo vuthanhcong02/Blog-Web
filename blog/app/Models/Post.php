@@ -36,4 +36,18 @@ class Post extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class,'post_tags','post_id','tag_id');
     }
+    public function isLikedByCurrentUser()
+    {
+        // Đây chỉ là ví dụ, bạn cần thay bằng cách kiểm tra thực tế
+        // nếu người dùng hiện tại đã like bài viết hay chưa.
+        // $currentUser = auth()->user();
+
+        // if (!$currentUser) {
+        //     return false;
+        // }
+        $currentUser = 1;
+
+        // return $this->likes->contains('user_id', $currentUser->id);
+        return $this->likes->contains('user_id', 1); // tesst
+    }
 }

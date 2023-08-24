@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\PostComment;
+use App\Models\Like;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -162,6 +163,31 @@ class PostController extends Controller
             $comment->save();
             return redirect()->back();
         }
+    }
+    public function postLike(Request $request)
+    {
+        $postId = $request->input('post_id');
+        $userId = 1; //test
+
+        //Kiểm tra xem người dùng đã like bài viết chưa
+        $like = Like::where('post_id', $postId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($like) {
+            // Đã thích, xóa like
+            $like->delete();
+        } else {
+            // Chưa thích, thêm like mới
+            $like = new Like();
+            $like->post_id = $postId;
+            $like->user_id = $userId;
+            $like->save();
+        }
+        $likeCount = Like::where('post_id', $postId)->count();
+        return response()->json(['success' => true,
+            'likeCount' => $likeCount,
+        ]);
     }
     /**
      * Show the form for editing the specified resource.

@@ -22,5 +22,6 @@ Route::prefix('/blogs')->group(function(){
     Route::get('/tag/{tagName}', [PostController::class, 'getPostByTag']);
     Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment');
     Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply');
+    Route::post('/post/like', [PostController::class, 'postLike'])->name('post.like');
 });
 

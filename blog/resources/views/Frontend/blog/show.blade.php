@@ -30,7 +30,24 @@
                                         <img src="assets/images/{{ $post->image }}" alt="">
                                     </div>
                                     <div class="down-content">
-                                        <span>{{ $post->category->name }}</span>
+                                        <div class="d-flex justify-content-between">
+                                            <span>{{ $post->category->name }}</span>
+                                            <ul>
+                                                <li>
+                                                    <form action="{{ route('post.like') }}" method="POST">
+                                                        @csrf
+                                                        <input
+                                                            type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <i
+                                                            id="likeButton" class="bi bi-heart-fill @if($post->isLikedByCurrentUser()) heart-active @endif"
+                                                            style="cursor: pointer;" onclick="like(this)"
+                                                            data-post="{{ $post->id }}"></i>
+                                                            <span class="like-count">{{ $post->likes->count() }}</span>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+
                                         <a href="/blogs/{{ str_replace(' ', '-', strtolower($post->title)) }}">
                                             <h4>{{ $post->title }}</h4>
                                         </a>
@@ -59,8 +76,8 @@
                                                         onclick="comment(this)">
                                                         <ul class="post-share">
                                                             <li><i class="bi bi-chat-dots"></i></li>
+                                                            <li>Bình luận</li>
                                                         </ul>
-                                                        <div>Bình luận</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-3">
@@ -164,8 +181,10 @@
                                                     <button type="submit" class="btn  btn-sm m-1"
                                                         style="background-color: #f48840; color: white">Post
                                                         comment</button>
-                                                    <a href="javascript:void(0)" type="button" class="btn btn-outline-secondary btn-sm m-1"
-                                                        id="cancelCommentReply" onclick="cancelCommentReply(this)">Cancel</a>
+                                                    <a href="javascript:void(0)" type="button"
+                                                        class="btn btn-outline-secondary btn-sm m-1"
+                                                        id="cancelCommentReply"
+                                                        onclick="cancelCommentReply(this)">Cancel</a>
                                                 </div>
                                             </form>
                                         </div>
@@ -187,9 +206,12 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button class="btn btn-primary btn-sm m-1" id="postCommentButton" style="background-color: #f48840; color: white">
+                                    <button class="btn btn-primary btn-sm m-1" id="postCommentButton"
+                                        style="background-color: #f48840; color: white">
                                         Sent</button>
-                                    <a  href="javascript:void(0)" type="button" class="btn btn-outline-secondary btn-sm m-1" id="cancelComment" onclick="cancelComment(this)">Cancel</a>
+                                    <a href="javascript:void(0)" type="button"
+                                        class="btn btn-outline-secondary btn-sm m-1" id="cancelComment"
+                                        onclick="cancelComment(this)">Cancel</a>
                                 </div>
                             </form>
                             <!-- end comment-form-->
@@ -259,8 +281,13 @@
             $('.commentForm').insertAfter($(caller).closest('.blog-post'));
             $('.commentForm').toggle('hidden');
         }
+
         function cancelComment(caller) {
             $(caller).closest('.commentForm').toggle('hidden');
+        }
+
+        function like(caller) {
+            $(caller).toggleClass('heart-active');
         }
         document.addEventListener("DOMContentLoaded", function(event) {
             var scrollpos = localStorage.getItem('scrollpos');
