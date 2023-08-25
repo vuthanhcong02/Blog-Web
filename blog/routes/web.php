@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AccountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,5 +24,9 @@ Route::prefix('/blogs')->group(function(){
     Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment');
     Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply');
     Route::post('/post/like', [PostController::class, 'postLike'])->name('post.like');
+});
+Route::prefix('/account')->group(function(){
+    Route::get('/login', [AccountController::class, 'login']);
+    Route::get('/register', [AccountController::class, 'register']);
 });
 

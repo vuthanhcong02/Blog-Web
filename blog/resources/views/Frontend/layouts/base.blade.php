@@ -67,12 +67,15 @@ https://templatemo.com/tm-551-stand-blog
                         <li class="nav-item {{request()->segment(1) == '/contact' ? 'active' : ''}}">
                             <a class="nav-link" href="contact.html">Contact</a>
                         </li>
+                        <li class="nav-item {{request()->segment(2) == 'login' || request()->segment(2) == 'register' ? 'active' : ''}}">
+                            <a class="nav-link" href="/account/login">Login</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    
+
     @yield('body')
     <footer>
         <div class="container">
