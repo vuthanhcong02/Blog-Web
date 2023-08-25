@@ -36,13 +36,20 @@
                                                 <li>
                                                     <form action="{{ route('post.like') }}" method="POST">
                                                         @csrf
-                                                        <input
-                                                            type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                            <i
-                                                            id="likeButton" class="bi bi-heart-fill @if($post->isLikedByCurrentUser()) heart-active @endif"
-                                                            style="cursor: pointer;" onclick="like(this)"
-                                                            data-post="{{ $post->id }}"></i>
-                                                            <span class="like-count">{{ $post->likes->count() }}</span>
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        @if (Auth::check())
+                                                            <i id="likeButton"
+                                                                class="bi bi-heart-fill @if ($post->isLikedByCurrentUser()) heart-active @endif"
+                                                                style="cursor: pointer;" onclick="like(this)"
+                                                                data-post="{{ $post->id }}"></i>
+                                                        @else
+                                                            <a href="/account/login?previous={{ urlencode(Request::url()) }}"
+                                                                style="color:black">
+                                                                <i id="likeButton" class="bi bi-heart-fill"
+                                                                    style="cursor: pointer;"></i>
+                                                            </a>
+                                                        @endif
+                                                        <span class="like-count">{{ $post->likes->count() }}</span>
                                                     </form>
                                                 </li>
                                             </ul>
@@ -72,13 +79,23 @@
                                                     </ul>
                                                 </div>
                                                 <div class="col-3">
-                                                    <div class="d-flex align-content-center" style="cursor: pointer"
-                                                        onclick="comment(this)">
-                                                        <ul class="post-share">
-                                                            <li><i class="bi bi-chat-dots"></i></li>
-                                                            <li>Bình luận</li>
-                                                        </ul>
-                                                    </div>
+                                                    @if (Auth::check())
+                                                        <div class="d-flex align-content-center" style="cursor: pointer"
+                                                            onclick="comment(this)">
+                                                            <ul class="post-share">
+                                                                <li><i class="bi bi-chat-dots"></i></li>
+                                                                <li>Bình luận</li>
+                                                            </ul>
+                                                        </div>
+                                                    @else
+                                                        <a href="/account/login?previous={{ urlencode(Request::url()) }}"
+                                                            class="d-flex align-content-center" style="cursor: pointer">
+                                                            <ul class="post-share">
+                                                                <li><i class="bi bi-chat-dots"></i></li>
+                                                                <li>Bình luận</li>
+                                                            </ul>
+                                                        </a>
+                                                    @endif
                                                 </div>
                                                 <div class="col-3">
                                                     <ul class="post-share">
@@ -119,12 +136,31 @@
                                                         <i class="bi bi-suit-heart"></i>
                                                         <p class="mb-0 p-2">Like</p>
                                                     </a>
-                                                    <a class="m-1 reply-cmt d-flex align-items-center"
-                                                        style="cursor: pointer">
-                                                        <i class="bi bi-reply "></i>
-                                                        <p class="mb-0 p-2 " href="javascript:void(0)" onclick="reply(this)"
-                                                            data-comment-id="{{ $comment->id }}">Reply</p>
-                                                    </a>
+                                                    @if (Auth::check())
+                                                        <a class="m-1 reply-cmt d-flex align-items-center"
+                                                            style="cursor: pointer">
+                                                            <i class="bi bi-reply "></i>
+                                                            <p class="mb-0 p-2 " href="javascript:void(0)"
+                                                                onclick="reply(this)"
+                                                                data-comment-id="{{ $comment->id }}">Trả lời</p>
+                                                        </a>
+                                                    @else
+                                                        <a href="/account/login?previous={{ urlencode(Request::url()) }}"
+                                                            class="m-1 reply-cmt d-flex align-items-center"
+                                                            style="cursor: pointer">
+                                                            <i class="bi bi-reply "></i>
+                                                            <p class="mb-0 p-2 ">Trả lời</p>
+                                                        </a>
+                                                    @endif
+                                                    {{-- // --}}
+                                                    <form action="" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <a class="d-flex align-items-center me-3 m-1" style="cursor: pointer" onclick="confirm('Bạn có muốn xoá bình luận này không?')">
+                                                            <i class="bi bi-trash"></i>
+                                                            <p class="mb-0 p-2" >Xóa</p>
+                                                        </a>
+                                                    </form>
                                                 </div>
                                             </div>
                                             @foreach ($comment->replies as $reply)
@@ -149,13 +185,31 @@
                                                                 <i class="bi bi-suit-heart"></i>
                                                                 <p class="mb-0 p-2">Like</p>
                                                             </a>
-                                                            <a class="m-1 reply-cmt d-flex align-items-center"
-                                                                style="cursor: pointer">
-                                                                <i class="bi bi-reply "></i>
-                                                                <p class="mb-0 p-2 " href="javascript:void(0)"
-                                                                    onclick="reply(this)"
-                                                                    data-comment-id="{{ $comment->id }}">Reply</p>
-                                                            </a>
+                                                            @if (Auth::check())
+                                                                <a class="m-1 reply-cmt d-flex align-items-center"
+                                                                    style="cursor: pointer">
+                                                                    <i class="bi bi-reply "></i>
+                                                                    <p class="mb-0 p-2 " href="javascript:void(0)"
+                                                                        onclick="reply(this)"
+                                                                        data-comment-id="{{ $comment->id }}">Reply</p>
+                                                                </a>
+                                                            @else
+                                                                <a href="/account/login?previous={{ urlencode(Request::url()) }}"
+                                                                    class="m-1 reply-cmt d-flex align-items-center"
+                                                                    style="cursor: pointer">
+                                                                    <i class="bi bi-reply "></i>
+                                                                    <p class="mb-0 p-2 ">Reply</p>
+                                                                </a>
+                                                            @endif
+                                                            {{-- / --}}
+                                                            <form action="" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <a class="d-flex align-items-center me-3 m-1" style="cursor: pointer" onclick="confirm('Bạn có muốn xoá bình luận này không?')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                    <p class="mb-0 p-2" >Xóa</p>
+                                                                </a>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

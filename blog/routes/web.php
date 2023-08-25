@@ -21,13 +21,14 @@ Route::prefix('/blogs')->group(function(){
     Route::get('/{titleName}', [PostController::class, 'show']);
     Route::get('/category/{categoryName}', [PostController::class, 'getPostByCategory']);
     Route::get('/tag/{tagName}', [PostController::class, 'getPostByTag']);
-    Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment');
-    Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply');
-    Route::post('/post/like', [PostController::class, 'postLike'])->name('post.like');
+    Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment')->middleware('checkUserLogin');
+    Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply')->middleware('checkUserLogin');
+    Route::post('/post/like', [PostController::class, 'postLike'])->name('post.like')->middleware('checkUserLogin');
 });
 Route::prefix('/account')->group(function(){
     Route::get('/login', [AccountController::class, 'login']);
     Route::post('/login', [AccountController::class, 'checkLogin']);
+    Route::get('/logout', [AccountController::class, 'logout']);
     Route::get('/register', [AccountController::class, 'register']);
 });
 

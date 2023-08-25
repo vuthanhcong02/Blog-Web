@@ -40,14 +40,13 @@ class Post extends Model
     {
         // Đây chỉ là ví dụ, bạn cần thay bằng cách kiểm tra thực tế
         // nếu người dùng hiện tại đã like bài viết hay chưa.
-        // $currentUser = auth()->user();
+        $currentUser = auth()->user();
 
-        // if (!$currentUser) {
-        //     return false;
-        // }
-        $currentUser = 1;
+        if (!$currentUser) {
+            return false;
+        }
 
         // return $this->likes->contains('user_id', $currentUser->id);
-        return $this->likes->contains('user_id', 1); // tesst
+        return $this->likes->contains('user_id', $currentUser->id); // tesst
     }
 }

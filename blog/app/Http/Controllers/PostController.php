@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\PostComment;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Like;
 use Illuminate\Support\Facades\Validator;
 
@@ -128,7 +129,7 @@ class PostController extends Controller
         } else {
             $comment = new PostComment();
             $comment->content = $message;
-            $comment->user_id = 1; // mặc định test;
+            $comment->user_id = Auth::user()->id; // mặc định test;
             $comment->post_id = $post_id;
             // dd($comment);
             $comment->save();
@@ -156,7 +157,7 @@ class PostController extends Controller
         } else {
             $comment = new PostComment();
             $comment->content = $message;
-            $comment->user_id = 1; // mặc định test;
+            $comment->user_id = Auth::user()->id; // mặc định test;
             $comment->post_id = $post_id; // mặc định test;
             $comment->parent_id = $parent_id;
             // dd($comment);
@@ -167,7 +168,7 @@ class PostController extends Controller
     public function postLike(Request $request)
     {
         $postId = $request->input('post_id');
-        $userId = 1; //test
+        $userId = Auth::user()->id; //test
 
         //Kiểm tra xem người dùng đã like bài viết chưa
         $like = Like::where('post_id', $postId)
