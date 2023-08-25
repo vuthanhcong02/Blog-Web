@@ -27,6 +27,7 @@ Route::prefix('/blogs')->group(function(){
 });
 Route::prefix('/account')->group(function(){
     Route::get('/login', [AccountController::class, 'login']);
+    Route::post('/login', [AccountController::class, 'checkLogin']);
     Route::get('/register', [AccountController::class, 'register']);
 });
 
