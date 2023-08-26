@@ -62,4 +62,7 @@ class AccountController extends Controller
     public function settingAccount(){
         return view('Frontend.account.setting');
     }
+    public function changeAvatar(){
+
+    }
 }

@@ -10,7 +10,7 @@
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-4">
                                 <div class="text-black">
-                                    <form method="post" action="" enctype="multipart/form-data">
+                                    <form method="post" action="/account/change-avatar" enctype="multipart/form-data">
                                         @csrf
                                         <div class="d-flex flex-column justify-content-center align-items-center">
                                             <img src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}"
