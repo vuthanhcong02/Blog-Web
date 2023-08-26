@@ -29,44 +29,55 @@
                                             </label>
                                         </div>
                                     </form>
-                                    <div class="flex-grow-1 ms-3">
-                                        <div class="d-flex flex-column align-items-center mt-2">
-                                            <h5 class="mb-1">{{ Auth::user()->name ?? ''}}</h5>
-                                            <p class="mb-2 pb-1" style="color: #2b2a2a;">
-                                                {{ Auth::user()->role ?? ''}}
-                                            </p>
-                                        </div>
-                                        <div class="d-flex flex-column align-content-center rounded-3 p-2 mb-2"
-                                            style="background-color: #efefef;">
-                                            <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">User Name</label>
-                                                <input type="text" class="form-control" id="" name="name"
-                                                    value="{{ Auth::user()->name ?? ''}}">
+                                    <form method="post" action="/account/update-profile">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="flex-grow-1 ms-3">
+                                            <div class="d-flex flex-column align-items-center mt-2">
+                                                <h5 class="mb-1">{{ Auth::user()->name ?? ''}}</h5>
+                                                <p class="mb-2 pb-1" style="color: #2b2a2a;">
+                                                    {{ Auth::user()->role ?? ''}}
+                                                </p>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="" name="email"
-                                                    value="{{ Auth::user()->email ?? ''}}">
+                                            <div class="d-flex flex-column align-content-center rounded-3 p-2 mb-2"
+                                                style="background-color: #efefef;">
+                                                <div class="mb-3">
+                                                    <label for="exampleInputPassword1" class="form-label">User Name</label>
+                                                    <input type="text" class="form-control" id="" name="name"
+                                                        value="{{ Auth::user()->name ?? ''}}">
+                                                    @error('name')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputPassword1" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="" name="email"
+                                                        value="{{ Auth::user()->email ?? ''}}">
+                                                    @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputPassword1" class="form-label">Mật khẩu <span
+                                                            class="required">(Nếu không thay đổi thì để trống !)</span></label>
+                                                    <input type="password" class="form-control" id="" name="password"
+                                                        value="">
+
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="exampleInputPassword1" class="form-label">Mật khẩu <span
-                                                        class="required">(Nếu không thay đổi thì để trống !)</span></label>
-                                                <input type="password" class="form-control" id="" name="password"
-                                                    value="">
+                                            <div class="d-flex justify-content-between">
+                                                <button type="submit" class="btn btn-outline-warning me-1 flex-grow-1 m-1"
+                                                    style="color: #2b2a2a;">
+                                                    Lưu
+                                                </button>
+                                                <a href="/" type="button"
+                                                    class="btn btn-outline-warning me-1 flex-grow-1 m-1"
+                                                    style="color: #2b2a2a;">
+                                                    Thoát
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between">
-                                            <a type="button" class="btn btn-outline-warning me-1 flex-grow-1 m-1"
-                                                style="color: #2b2a2a;">
-                                                Lưu
-                                            </a>
-                                            <a href="/" type="button"
-                                                class="btn btn-outline-warning me-1 flex-grow-1 m-1"
-                                                style="color: #2b2a2a;">
-                                                Thoát
-                                            </a>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

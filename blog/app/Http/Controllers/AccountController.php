@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\CheckUserRequest;
 use App\Http\Requests\CheckUserRegisterRequest;
+use App\Http\Requests\CheckUserChangeProfileRequest;
 use App\Utilities\UploadFile;
 class AccountController extends Controller
 {
@@ -74,5 +75,22 @@ class AccountController extends Controller
             }
             return redirect()->back();
         }
+    }
+    public function updateProfile(CheckUserChangeProfileRequest $request){
+
+        if($request->password == null){
+            $dataInfor  = [
+                'name' => $request->name,
+                'email' => $request->email,
+            ];
+        }else{
+            $dataInfor  = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ];
+        }
+        User::where('id',Auth::user()->id)->update($dataInfor);
+        return redirect()->back()->with('success','Thông tin đã được thành công');
     }
 }

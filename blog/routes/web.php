@@ -35,5 +35,6 @@ Route::prefix('/account')->group(function(){
     Route::post('/register', [AccountController::class, 'checkRegister']);
     Route::get('/profile-setting', [AccountController::class, 'settingAccount']);
     Route::post('/change-avatar', [AccountController::class, 'changeAvatar']);
+    Route::put('/update-profile', [AccountController::class, 'updateProfile']);
 });
 
