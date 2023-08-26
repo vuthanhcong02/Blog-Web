@@ -19,10 +19,13 @@
                                         </div>
                                         <div class="d-flex flex-column align-items-center justify-content-center">
                                             <label class="label">
-                                                <input type="file" required onchange="changeImg(this);this.form.submit()"
-                                                    value="{{ old('avatar') }}" name="avatar"
-                                                    accept="image/x-png,image/gif,image/jpeg" />
-                                                <span>Thay đổi avatar</span>
+                                                @if(Auth::check())
+                                                    <input type="file" required onchange="changeImg(this);this.form.submit()"
+                                                        value="{{ old('avatar') }}" name="avatar"
+                                                        accept="image/x-png,image/gif,image/jpeg" />
+                                                    <span>Thay đổi avatar</span>
+
+                                                @endif
                                             </label>
                                         </div>
                                     </form>

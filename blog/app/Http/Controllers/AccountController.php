@@ -66,8 +66,12 @@ class AccountController extends Controller
     public function changeAvatar(Request $request){
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
+            $avatar_old = Auth::user()->avatar;
             $fileName = UploadFile::uploadFile($file, 'assets/images/avatar');
             User::where('id',Auth::user()->id)->update(['avatar' => $fileName]);
+            if ($avatar_old && file_exists(public_path('assets/images/avatar/' . $avatar_old))) {
+                unlink(public_path('assets/images/avatar/' . $avatar_old));
+            }
             return redirect()->back();
         }
     }
