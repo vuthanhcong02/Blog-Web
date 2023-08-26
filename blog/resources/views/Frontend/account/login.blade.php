@@ -30,7 +30,7 @@
                     <!-- Email input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form2Example1">Email address<sup class="required">*</sup></label>
-                        <input type="email" id="form2Example1" class="form-control" name="email" />
+                        <input type="email" id="form2Example1" class="form-control" name="email" value="{{session('registered_email')}}" />
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -39,7 +39,7 @@
                     <!-- Password input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form2Example2">Password<sup class="required">*</sup></label>
-                        <input type="password" id="form2Example2" class="form-control" name="password" />
+                        <input type="password" id="form2Example2" class="form-control" name="password" value="{{session('registered_password')}}" />
                         @error('password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
