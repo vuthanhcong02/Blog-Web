@@ -190,6 +190,47 @@ class PostController extends Controller
             'likeCount' => $likeCount,
         ]);
     }
+    public function postUnComment(String $id){
+        //
+        $comment = PostComment::findOrFail($id);
+        if (Auth::user()->id === $comment->user_id) {
+            // Lấy danh sách comment reply
+            $replies = PostComment::where('post_id', $comment->post_id)
+                              ->where('parent_id', $id)
+                              ->get();
+            // dd($replies);
+            // Gọi đệ quy cho từng comment reply
+            foreach ($replies as $reply) {
+                // $this->postUnComment($reply->id);
+                $reply->delete();
+                // dd($replies);
+            }
+
+            // // Xóa comment
+            PostComment::destroy($id);
+            return redirect()->back();
+        }else{
+            toastr()->timeOut(2000)
+                    ->newestOnTop(true)
+                    ->addError('Bạn không có quyền xóa bình luận người khác.');
+            return redirect()->back();
+        }
+        // dd($replyComments);
+
+    }
+    public function postUnCommentReply(String $id){
+        $reply = PostComment::findOrFail($id);
+        if (Auth::user()->id === $reply->user_id) {
+            $reply->delete();
+            return redirect()->back();
+        }
+        else{
+            toastr()->timeOut(2000)
+                    ->newestOnTop(true)
+                    ->addError('Bạn không có quyền xóa bình luận người khác.');
+            return redirect()->back();
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      */

@@ -24,6 +24,8 @@ Route::prefix('/blogs')->group(function(){
     Route::post('/{titleName}', [PostController::class, 'postComment'])->name('post.comment')->middleware('checkUserLogin');
     Route::post('/comment/reply', [PostController::class, 'postReply'])->name('post.reply')->middleware('checkUserLogin');
     Route::post('/post/like', [PostController::class, 'postLike'])->name('post.like')->middleware('checkUserLogin');
+    Route::delete('/post/{id}/uncomment', [PostController::class, 'postUnComment'])->name('post.uncomment')->middleware('checkUserLogin');
+    Route::delete('/post/{id}/uncommentreply', [PostController::class, 'postUnCommentReply'])->name('post.uncommentreply')->middleware('checkUserLogin');
 });
 Route::prefix('/account')->group(function(){
     Route::get('/login', [AccountController::class, 'login']);

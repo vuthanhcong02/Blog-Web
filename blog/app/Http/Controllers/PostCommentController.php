@@ -62,5 +62,6 @@ class PostCommentController extends Controller
     public function destroy(PostComment $postComment)
     {
         //
+
     }
 }

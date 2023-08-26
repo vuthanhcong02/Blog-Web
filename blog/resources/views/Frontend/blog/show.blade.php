@@ -153,14 +153,27 @@
                                                         </a>
                                                     @endif
                                                     {{-- // --}}
-                                                    <form action="" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a class="d-flex align-items-center me-3 m-1" style="cursor: pointer" onclick="confirm('Bạn có muốn xoá bình luận này không?')">
+                                                    @if(Auth::check())
+                                                        <form action="{{route('post.uncomment', $comment->id)}}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                             {{-- <input type="hidden" name="comment_id" value="{{ $comment->id }}"/> --}}
+                                                            <input type="hidden" name="post_id" value="{{ $post->id }}"/>
+                                                            <button type="submit" class="d-flex align-items-center me-3 m-1 commentDelete"
+                                                                style="cursor: pointer;background: none;border: none; outline: none;"
+                                                                onclick=" return confirm('Bạn có muốn xoá bình luận này không?')"
+                                                                data-comment-id="{{ $comment->id }}"
+                                                                >
+                                                                <i class="bi bi-trash"></i>
+                                                                <p class="mb-0 p-2" >Xóa</p>
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <a href="/account/login?previous={{ urlencode(Request::url()) }}" class="d-flex align-items-center me-3 m-1">
                                                             <i class="bi bi-trash"></i>
                                                             <p class="mb-0 p-2" >Xóa</p>
                                                         </a>
-                                                    </form>
+                                                    @endif
                                                 </div>
                                             </div>
                                             @foreach ($comment->replies as $reply)
@@ -202,14 +215,25 @@
                                                                 </a>
                                                             @endif
                                                             {{-- / --}}
-                                                            <form action="" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <a class="d-flex align-items-center me-3 m-1" style="cursor: pointer" onclick="confirm('Bạn có muốn xoá bình luận này không?')">
+                                                            @if(Auth::check())
+                                                                <form action="{{route('post.uncommentreply', $reply->id)}}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    {{-- <input type="hidden" name="comment_id" value="{{ $comment->id }}"/> --}}
+                                                                    <input type="hidden" name="post_id" value="{{ $post->id }}"/>
+                                                                    <button class="d-flex align-items-center me-3 m-1"
+                                                                    style="cursor: pointer;background: none;border: none; outline: none;"
+                                                                    onclick="return confirm('Bạn có muốn xoá bình luận này không?')">
+                                                                        <i class="bi bi-trash"></i>
+                                                                        <p class="mb-0 p-2" >Xóa</p>
+                                                                    </button>
+                                                                </form>
+                                                            @else
+                                                                <a href="/account/login?previous={{ urlencode(Request::url()) }}" class="d-flex align-items-center me-3 m-1">
                                                                     <i class="bi bi-trash"></i>
                                                                     <p class="mb-0 p-2" >Xóa</p>
                                                                 </a>
-                                                            </form>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

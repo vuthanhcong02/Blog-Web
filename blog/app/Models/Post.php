@@ -49,4 +49,5 @@ class Post extends Model
         // return $this->likes->contains('user_id', $currentUser->id);
         return $this->likes->contains('user_id', $currentUser->id); // tesst
     }
+
 }
