@@ -5,7 +5,7 @@ namespace App\Utilities;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-class Common
+class UploadFile
 {
     public static function uploadFile($file, $path)
     {

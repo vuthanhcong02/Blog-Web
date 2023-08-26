@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\CheckUserRequest;
 use App\Http\Requests\CheckUserRegisterRequest;
+use App\Utilities\UploadFile;
 class AccountController extends Controller
 {
     //
@@ -62,7 +63,12 @@ class AccountController extends Controller
     public function settingAccount(){
         return view('Frontend.account.setting');
     }
-    public function changeAvatar(){
-
+    public function changeAvatar(Request $request){
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $fileName = UploadFile::uploadFile($file, 'assets/images/avatar');
+            User::where('id',Auth::user()->id)->update(['avatar' => $fileName]);
+            return redirect()->back();
+        }
     }
 }

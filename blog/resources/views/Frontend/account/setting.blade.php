@@ -15,7 +15,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center">
                                             <img src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}"
                                                 alt="Generic placeholder image" class="img-fluid"
-                                                style="width: 180px; border-radius:50%;" name="avatar" id="avatarImage" />
+                                                style="width: 180px; height: 180px; border-radius:50%; object-fit: cover;" name="avatar" id="avatarImage" />
                                         </div>
                                         <div class="d-flex flex-column align-items-center justify-content-center">
                                             <label class="label">
@@ -28,9 +28,9 @@
                                     </form>
                                     <div class="flex-grow-1 ms-3">
                                         <div class="d-flex flex-column align-items-center mt-2">
-                                            <h5 class="mb-1">{{ Auth::user()->name }}</h5>
+                                            <h5 class="mb-1">{{ Auth::user()->name ?? ''}}</h5>
                                             <p class="mb-2 pb-1" style="color: #2b2a2a;">
-                                                {{ Auth::user()->role }}
+                                                {{ Auth::user()->role ?? ''}}
                                             </p>
                                         </div>
                                         <div class="d-flex flex-column align-content-center rounded-3 p-2 mb-2"
@@ -38,12 +38,12 @@
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">User Name</label>
                                                 <input type="text" class="form-control" id="" name="name"
-                                                    value="{{ Auth::user()->name }}">
+                                                    value="{{ Auth::user()->name ?? ''}}">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Email</label>
                                                 <input type="email" class="form-control" id="" name="email"
-                                                    value="{{ Auth::user()->email }}">
+                                                    value="{{ Auth::user()->email ?? ''}}">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Mật khẩu <span

@@ -78,7 +78,7 @@ https://templatemo.com/tm-551-stand-blog
                         <li class="nav-item dropdown " style="cursor: pointer;">
                             <div class="dropdown-toggle d-flex align-items-center " id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('assets/images/avatar/default-avatar.jpeg') }}" alt="avatar"
+                                <img src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}" alt="avatar"
                                     width="30px" height="30px" style="border-radius: 50%;">
                                 <span class="nav-link">{{ Auth::user()->name }}</span>
                             </div>
