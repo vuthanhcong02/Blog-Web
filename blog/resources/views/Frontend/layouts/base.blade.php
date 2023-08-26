@@ -83,7 +83,7 @@ https://templatemo.com/tm-551-stand-blog
                                 <span class="nav-link">{{ Auth::user()->name }}</span>
                             </div>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="account/setting">Cài đặt tài khoản</a></li>
+                                <li><a class="dropdown-item" href="account/profile-setting">Cài đặt tài khoản</a></li>
                                 <li><a class="dropdown-item" href="account/logout">Đăng xuất</a></li>
                             </ul>
                         </li>

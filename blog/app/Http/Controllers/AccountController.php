@@ -59,4 +59,7 @@ class AccountController extends Controller
         session(['registered_password' => $request->password]);
         return redirect('/account/login');
     }
+    public function settingAccount(){
+        return view('Frontend.account.setting');
+    }
 }

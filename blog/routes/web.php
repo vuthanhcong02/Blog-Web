@@ -33,5 +33,6 @@ Route::prefix('/account')->group(function(){
     Route::get('/logout', [AccountController::class, 'logout']);
     Route::get('/register', [AccountController::class, 'register']);
     Route::post('/register', [AccountController::class, 'checkRegister']);
+    Route::get('/profile-setting', [AccountController::class, 'settingAccount']);
 });
 
