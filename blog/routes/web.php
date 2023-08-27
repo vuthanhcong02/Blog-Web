@@ -6,6 +6,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,3 +44,10 @@ Route::prefix('/account')->group(function(){
 Route::get('/contact', [ContactController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'sendEmailContact'])->name('contact.send');
 Route::resource('/about', AboutController::class);
+
+/// dashboard admin
+
+Route::prefix('/admin')->group(function(){
+    Route::get('/',[DashboardController::class, 'index']);
+    Route::resource('/users', UserController::class);
+});
