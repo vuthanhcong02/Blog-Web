@@ -181,7 +181,7 @@
                                                     <div class="content" data-comment-id="{{ $comment->id }}">
                                                         <div class="d-flex flex-start align-items-center">
                                                             <img class="rounded-circle shadow-1-strong me-3 m-2"
-                                                                src="assets/images/avatar/{{ $comment->user->avatar ?? 'default-avatar.jpeg' }}"
+                                                                src="assets/images/avatar/{{ $reply->user->avatar ?? 'default-avatar.jpeg' }}"
                                                                 alt="avatar" width="60" height="60" />
                                                             <div>
                                                                 <h6 class="fw-bold">{{ $reply->user->name }}</h6>
@@ -204,14 +204,14 @@
                                                                     <i class="bi bi-reply "></i>
                                                                     <p class="mb-0 p-2 " href="javascript:void(0)"
                                                                         onclick="reply(this)"
-                                                                        data-comment-id="{{ $comment->id }}">Reply</p>
+                                                                        data-comment-id="{{ $comment->id }}">Trả lời</p>
                                                                 </a>
                                                             @else
                                                                 <a href="/account/login?previous={{ urlencode(Request::url()) }}"
                                                                     class="m-1 reply-cmt d-flex align-items-center"
                                                                     style="cursor: pointer">
                                                                     <i class="bi bi-reply "></i>
-                                                                    <p class="mb-0 p-2 ">Reply</p>
+                                                                    <p class="mb-0 p-2 ">Trả lời</p>
                                                                 </a>
                                                             @endif
                                                             {{-- / --}}
@@ -246,7 +246,7 @@
                                 <div class=" py-3 border-0">
                                     <div class="d-flex flex-start w-100">
                                         <img class="rounded-circle shadow-1-strong me-3 m-2"
-                                            src="assets/images/avatar/{{ $comment->user->avatar ?? 'default-avatar.jpeg' }}"
+                                            src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}"
                                             alt="avatar" width="40" height="40" />
                                         <div class="form-outline w-100">
                                             <form action="{{ route('post.reply') }}" method="post">
@@ -257,8 +257,8 @@
                                                 <label class="form-label" for="textAreaExample">Message</label>
                                                 <div class="d-flex justify-content-end">
                                                     <button type="submit" class="btn  btn-sm m-1"
-                                                        style="background-color: #f48840; color: white">Post
-                                                        comment</button>
+                                                        style="background-color: #f48840; color: white">Gửi
+                                                        </button>
                                                     <a href="javascript:void(0)" type="button"
                                                         class="btn btn-outline-secondary btn-sm m-1"
                                                         id="cancelCommentReply"
@@ -275,7 +275,7 @@
                                 @csrf
                                 <div class="d-flex flex-start w-100">
                                     <img class="rounded-circle shadow-1-strong me-3 m-2"
-                                        src="assets/images/avatar/{{ $post->user->avatar ?? 'default-avatar.jpeg' }}"
+                                        src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}"
                                         alt="avatar" width="40" height="40" />
                                     <div class="form-outline w-100">
                                         <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;" name="message"
