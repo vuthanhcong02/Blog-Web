@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AboutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,4 +39,5 @@ Route::prefix('/account')->group(function(){
     Route::post('/change-avatar', [AccountController::class, 'changeAvatar']);
     Route::put('/update-profile', [AccountController::class, 'updateProfile']);
 });
-
+Route::get('/contact', [ContactController::class, 'index']);
+Route::resource('/about', AboutController::class);
