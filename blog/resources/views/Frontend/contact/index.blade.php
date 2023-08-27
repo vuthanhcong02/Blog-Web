@@ -14,33 +14,51 @@
                                         <h2>Send us a message</h2>
                                     </div>
                                     <div class="content">
-                                        <form id="contact" action="" method="post">
+                                        <form id="contact" action="{{ route('contact.send') }}" method="post">
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12">
-                                                    <fieldset>
+                                                    <fieldset class="mb-2"
+
+                                                    >
                                                         <input name="name" type="text" id="name"
-                                                            placeholder="Your name" required="">
+                                                            placeholder="Your name" value="{{ old('name') }}">
+                                                        @error('name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </fieldset>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
-                                                    <fieldset>
+                                                    <fieldset  class="mb-2">
                                                         <input name="email" type="text" id="email"
-                                                            placeholder="Your email" required="">
+                                                            placeholder="Your email" value="{{ old('email') }}">
+                                                        @error('email')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </fieldset>
+
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">
-                                                    <fieldset>
+                                                    <fieldset class="mb-2">
                                                         <input name="subject" type="text" id="subject"
-                                                            placeholder="Subject">
+                                                            placeholder="Subject" value="{{ old('subject') }}">
+                                                        @error('subject')
+                                                            <span class="text-danger ">{{ $message }}</span>
+                                                        @enderror
                                                     </fieldset>
+
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <fieldset>
-                                                        <textarea name="message" rows="6" id="message" placeholder="Your Message" required=""></textarea>
+                                                    <fieldset class="mb-2">
+                                                        <textarea name="message" rows="6" id="message" placeholder="Your Message" value="{{ old('message') }}"></textarea>
+                                                        @error('message')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </fieldset>
+
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <fieldset>
+                                                    <fieldset class="mb-2">
                                                         <button type="submit" id="form-submit" class="main-button">Send
                                                             Message</button>
                                                     </fieldset>

@@ -40,4 +40,5 @@ Route::prefix('/account')->group(function(){
     Route::put('/update-profile', [AccountController::class, 'updateProfile']);
 });
 Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'sendEmailContact'])->name('contact.send');
 Route::resource('/about', AboutController::class);
