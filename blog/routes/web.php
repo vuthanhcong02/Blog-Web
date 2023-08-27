@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,7 @@ Route::resource('/about', AboutController::class);
 /// dashboard admin
 
 Route::prefix('/admin')->group(function(){
+    Route::get('/login', [LoginController::class, 'index']);
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('/users', UserController::class);
 });
