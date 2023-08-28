@@ -48,8 +48,10 @@ Route::resource('/about', AboutController::class);
 
 /// dashboard admin
 
-Route::prefix('/admin')->group(function(){
-    Route::get('/login', [LoginController::class, 'index']);
+Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
+    Route::get('/login', [LoginController::class, 'index'])->withoutMiddleware('checkAdminLogin');
+    Route::post('/login', [LoginController::class, 'checkAdminLogin'])->name('admin.login')->withoutMiddleware('checkAdminLogin');
+    Route::get('/logout', [LoginController::class, 'logout']);
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('/users', UserController::class);
 });

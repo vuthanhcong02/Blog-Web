@@ -26,18 +26,22 @@
                     <div class="mx-auto app-login-box col-md-8">
                         <div class="modal-dialog w-100 mx-auto">
                             <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="h5 modal-title text-center">
-                                        <h4 class="mt-2">
-                                            <div>Welcome back,</div>
-                                        </h4>
-                                    </div>
-                                    <form class="">
+                                <form class="" method="post" action="{{ route('admin.login') }}">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="h5 modal-title text-center">
+                                            <h4 class="mt-2">
+                                                <div>Welcome back,</div>
+                                            </h4>
+                                        </div>
                                         <div class="form-row">
                                             <div class="col-md-12">
                                                 <div class="position-relative form-group">
                                                     <input name="email" id="exampleEmail" placeholder="Email here..."
                                                         type="email" class="form-control">
+                                                    @error('email')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -45,21 +49,25 @@
                                                     <input name="password" id="examplePassword"
                                                         placeholder="Password here..." type="password"
                                                         class="form-control">
+                                                    @error('password')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="position-relative form-check">
                                             <input name="remember" id="exampleCheck" type="checkbox"
-                                                class="form-check-input">
-                                            <label for="exampleCheck" class="form-check-label">Keep me logged in</label>
+                                                class="form-check-input" value="checked">
+                                            <label for="exampleCheck" class="form-check-label">Remember me</label>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer clearfix">
-                                    <div class="float-right">
-                                        <button class="btn btn-primary btn-lg">Login to Dashboard</button>
                                     </div>
-                                </div>
+                                    <div class="modal-footer clearfix">
+                                        <div class="float-right">
+                                            <button type="submit" class="btn btn-primary btn-lg">Login to
+                                                Dashboard</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="text-center text-white opacity-8 mt-3">Copyright © CodeLean 2022</div>
