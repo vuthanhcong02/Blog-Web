@@ -14,11 +14,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $list_users = User::where('role', '!=', 'admin')
+        $keyword = $request->search ?? '';
+        if($keyword != ''){
+            $list_users = User::where('name', 'like', '%'.$keyword.'%')
+                            ->orWhere('email', 'like', '%'.$keyword.'%')
+                            ->orWhere('role', 'like', '%'.$keyword.'%')
                             ->orderBy('id', 'desc')->paginate(5);
+        }
+        else{
+            $list_users = User::where('role', '!=', 'admin')
+            ->orderBy('id', 'desc')->paginate(5);
+        }
         return view('Dashboard.user.index',compact('list_users'));
     }
 

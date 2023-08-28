@@ -35,7 +35,7 @@
                     <form action="">
                         <div class="input-group">
                             <input type="search" name="search" id="search"
-                                placeholder="Search everything" class="form-control" value="">
+                                placeholder="Search everything" class="form-control" value="{{request('search')}}">
                             <span class="input-group-append">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-search"></i>&nbsp;
@@ -65,6 +65,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (count($list_users) > 0)
                             @foreach($list_users as $user)
                             <tr>
                                 <td class="text-center text-muted">#{{ $user->id }}</td>
@@ -112,7 +113,11 @@
                                 </td>
                             </tr>
                             @endforeach
-
+                            @else
+                            <tr>
+                                <div class="alert alert-danger text-center">Không tìm thấy kết quả nào phù hợp.</div>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
