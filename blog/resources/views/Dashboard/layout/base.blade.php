@@ -418,32 +418,32 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="admin" class="{{request()->is('admin') ? 'mm-active' : ''}}">
+                                        <a href="admin" class="{{request()->segment(2) == '' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Dashboard
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="admin/users" class="{{request()->is('admin/users') ? 'mm-active' : ''}}">
+                                        <a href="admin/users" class="{{request()->segment(2) == 'users' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>User
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="admin/posts" class="{{request()->is('admin/posts') ? 'mm-active' : ''}}">
+                                        <a href="admin/posts" class="{{request()->segment(2) == 'posts' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Post
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="admin/tags" class="{{request()->is('admin/tags') ? 'mm-active' : ''}}">
+                                        <a href="admin/tags" class="{{request()->segment(2) == 'tags' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Tag
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="admin/categories" class="{{request()->is('admin/categories') ? 'mm-active' : ''}}">
+                                        <a href="admin/categories" class="{{request()->segment(2) == 'categories' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Category
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="admin/comments" class="{{request()->is('admin/comments') ? 'mm-active' : ''}}">
+                                        <a href="admin/comments" class="{{request()->segment(2) == 'comments' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Comment
                                         </a>
                                     </li>

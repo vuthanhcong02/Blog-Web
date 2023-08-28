@@ -9,6 +9,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,4 +56,6 @@ Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('/users', UserController::class);
     Route::delete('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy')->middleware('checkAdminDelete');
+    Route::resource('/categories', CategoryController::class);
+    Route::delete('/categories/{id}/delete', [CategoryController::class, 'destroy'])->name('categories.destroy')->middleware('checkAdminDelete');
 });
