@@ -54,4 +54,5 @@ Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
     Route::get('/logout', [LoginController::class, 'logout']);
     Route::get('/',[DashboardController::class, 'index']);
     Route::resource('/users', UserController::class);
+    Route::delete('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy')->middleware('checkAdminDelete');
 });

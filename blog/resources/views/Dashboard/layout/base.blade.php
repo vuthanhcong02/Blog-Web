@@ -170,8 +170,8 @@
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                             class="p-0 btn">
-                                            <img width="42" class="rounded-circle"
-                                                src="assets/images/avatars/1.jpg" alt="">
+                                            <img width="42" class="rounded-circle" height="42" style="border-radius: 50%"
+                                                src="assets/images/avatar/{{Auth::user()->avatar ?? 'default-avatar.jpeg'}}" alt="">
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true"
@@ -179,24 +179,23 @@
                                             <div class="dropdown-menu-header">
                                                 <div class="dropdown-menu-header-inner bg-info">
                                                     <div class="menu-header-image opacity-2"
-                                                        style="background-image: url('assets/images/dropdown-header/city3.jpg');">
+                                                        style="background-image: url('Dashboard/assets/images/dropdown-header/city3.jpg');">
                                                     </div>
                                                     <div class="menu-header-content text-left">
                                                         <div class="widget-content p-0">
                                                             <div class="widget-content-wrapper">
                                                                 <div class="widget-content-left mr-3">
-                                                                    <img width="42" class="rounded-circle"
-                                                                        src="assets/images/avatars/1.jpg"
+                                                                    <img width="42" height="42" alt="rounded-circle" style="border-radius: 50%"
+                                                                        src="assets/images/avatar/{{ Auth::user()->avatar ?? 'default-avatar.jpeg' }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="widget-content-left">
-                                                                    <div class="widget-heading">Alina Mcloughlin</div>
-                                                                    <div class="widget-subheading opacity-8">A short
-                                                                        profile description</div>
+                                                                    <div class="widget-heading">{{ Auth::user()->name }}</div>
+                                                                    <div class="widget-subheading opacity-8">{{ Auth::user()->role }}</div>
                                                                 </div>
                                                                 <div class="widget-content-right mr-2">
-                                                                    <button
-                                                                        class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</button>
+                                                                    <a href="/admin/logout"
+                                                                        class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -270,8 +269,8 @@
                                     </div>
                                 </div>
                                 <div class="widget-content-left  ml-3 header-user-info">
-                                    <div class="widget-heading"> Alina Mclourd </div>
-                                    <div class="widget-subheading"> VP People Manager </div>
+                                    <div class="widget-heading"> {{ Auth::user()->name ?? ''}}</div>
+                                    <div class="widget-subheading"> {{ Auth::user()->email ?? ''}}</div>
                                 </div>
                                 <div class="widget-content-right header-user-info ml-3">
                                     <button type="button"
@@ -414,33 +413,38 @@
 
                             <li class="mm-active">
                                 <a href="#">
-                                    <i class="metismenu-icon pe-7s-plugin"></i>Applications
+                                    <i class="metismenu-icon pe-7s-plugin"></i>Managers
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="./user.html" class="mm-active">
+                                        <a href="admin" class="{{request()->is('admin') ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="admin/users" class="{{request()->is('admin/users') ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>User
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./order.html">
-                                            <i class="metismenu-icon"></i>Order
+                                        <a href="admin/posts" class="{{request()->is('admin/posts') ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Post
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./product.html">
-                                            <i class="metismenu-icon"></i>Product
+                                        <a href="admin/tags" class="{{request()->is('admin/tags') ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Tag
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./category.html">
+                                        <a href="admin/categories" class="{{request()->is('admin/categories') ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Category
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./brand.html">
-                                            <i class="metismenu-icon"></i>Brand
+                                        <a href="admin/comments" class="{{request()->is('admin/comments') ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Comment
                                         </a>
                                     </li>
                                 </ul>

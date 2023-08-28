@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CheckUserRegisterRequest;
+use App\Http\Requests\CheckUserChangeProfileRequest;
 class UserController extends Controller
 {
     /**
@@ -13,7 +17,9 @@ class UserController extends Controller
     public function index()
     {
         //
-        return view('Dashboard.user.index');
+        $list_users = User::where('role', '!=', 'admin')
+                            ->orderBy('id', 'desc')->paginate(5);
+        return view('Dashboard.user.index',compact('list_users'));
     }
 
     /**
@@ -22,14 +28,24 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('Dashboard.user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CheckUserRegisterRequest $request)
     {
         //
+        $data_infor = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role ?? 'user',
+        ];
+        User::create($data_infor);
+        // toastr()->success('Thêm mới thành công');
+        return redirect()->route('users.index')->with('success','Thêm mới người dùng thành công');
     }
 
     /**
@@ -46,14 +62,33 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+        $user =  User::findOrFail($id);
+        return view('Dashboard.user.edit',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CheckUserChangeProfileRequest $request, string $id)
     {
         //
+        if(($request->password!=null)){
+            $data_infor = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role' => $request->role ?? 'user',
+            ];
+        }
+        else{
+            $data_infor = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => $request->role ?? 'user',
+            ];
+        }
+        User::where('id',$id)->update($data_infor);
+        return redirect()->route('users.index')->with('success','Cập nhật người dùng thành công');
     }
 
     /**
@@ -62,5 +97,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        User::destroy($id);
+        return redirect()->route('users.index')->with('success','Xóa người dùng thành công');
     }
 }

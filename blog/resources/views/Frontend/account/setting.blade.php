@@ -62,7 +62,9 @@
                                                             class="required">(Nếu không thay đổi thì để trống !)</span></label>
                                                     <input type="password" class="form-control" id="" name="password"
                                                         value="">
-
+                                                    @error('password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between">

@@ -91,6 +91,6 @@ class AccountController extends Controller
             ];
         }
         User::where('id',Auth::user()->id)->update($dataInfor);
-        return redirect()->back()->with('success','Thông tin đã được thành công');
+        return redirect()->back()->with('success','Thông tin đã được lưu thành công');
     }
 }

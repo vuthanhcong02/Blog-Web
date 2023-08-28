@@ -23,8 +23,9 @@ class CheckUserChangeProfileRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required | min:3 | max:50 | regex:/^[\p{L}0-9]+$/u',
+            'name' => 'required | min:3 | max:50 | regex:/[a-zA-Z0-9]/',
             'email' => 'required | email ',
+            'password' => 'nullable | min:6',
         ];
     }
     public function messages(): array{
@@ -36,6 +37,7 @@ class CheckUserChangeProfileRequest extends FormRequest
             'name.regex' => ':attribute không hợp lệ',
             'email.email' => ':attribute không hợp lệ',
             'email.required' => ':attribute không được để trống',
+            'password.min' => ':attribute phải có ít nhất 6 kí tự',
         ];
     }
     public function attributes(): array{
@@ -43,6 +45,7 @@ class CheckUserChangeProfileRequest extends FormRequest
             //
             'name' => 'Tên',
             'email' => 'Email',
+            'password' => 'Mật khẩu',
         ];
     }
 }

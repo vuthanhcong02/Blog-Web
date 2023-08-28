@@ -18,7 +18,7 @@
             </div>
 
             <div class="page-title-actions">
-                <a href="./user-create.html" class="btn-shadow btn-hover-shine mr-3 btn btn-primary">
+                <a href="{{ route('users.create') }}" class="btn-shadow btn-hover-shine mr-3 btn btn-primary">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fa fa-plus fa-w-20"></i>
                     </span>
@@ -31,13 +31,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-
                 <div class="card-header">
-
-                    <form>
+                    <form action="">
                         <div class="input-group">
                             <input type="search" name="search" id="search"
-                                placeholder="Search everything" class="form-control">
+                                placeholder="Search everything" class="form-control" value="">
                             <span class="input-group-append">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-search"></i>&nbsp;
@@ -62,14 +60,14 @@
                                 <th class="text-center">ID</th>
                                 <th>Full Name</th>
                                 <th class="text-center">Email</th>
-                                <th class="text-center">Level</th>
+                                <th class="text-center">Role</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            @foreach($list_users as $user)
                             <tr>
-                                <td class="text-center text-muted">#01</td>
+                                <td class="text-center text-muted">#{{ $user->id }}</td>
                                 <td>
                                     <div class="widget-content p-0">
                                         <div class="widget-content-wrapper">
@@ -78,31 +76,30 @@
                                                     <img width="40" class="rounded-circle"
                                                         data-toggle="tooltip" title="Image"
                                                         data-placement="bottom"
-                                                        src="assets/images/_default-user.png" alt="">
+                                                        src="assets/images/avatar/{{ $user->avatar ?? 'default-avatar.jpeg' }}" alt="">
                                                 </div>
                                             </div>
                                             <div class="widget-content-left flex2">
-                                                <div class="widget-heading">CodeLean</div>
+                                                <div class="widget-heading">{{ $user->name }}</div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">info@CodeLean.vn</td>
+                                <td class="text-center">{{ $user->email }}</td>
                                 <td class="text-center">
-                                    Admin
+                                    {{ $user->role }}
                                 </td>
                                 <td class="text-center">
-                                    <a href="./user-show.html"
-                                        class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">
-                                        Details
-                                    </a>
-                                    <a href="./user-edit.html" data-toggle="tooltip" title="Edit"
+
+                                    <a href="{{ route('users.edit', $user->id) }}" data-toggle="tooltip" title="Edit"
                                         data-placement="bottom" class="btn btn-outline-warning border-0 btn-sm">
                                         <span class="btn-icon-wrapper opacity-8">
                                             <i class="fa fa-edit fa-w-20"></i>
                                         </span>
                                     </a>
-                                    <form class="d-inline" action="" method="post">
+                                    <form class="d-inline" action="{{ route('users.destroy', $user->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
                                         <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm"
                                             type="submit" data-toggle="tooltip" title="Delete"
                                             data-placement="bottom"
@@ -114,78 +111,14 @@
                                     </form>
                                 </td>
                             </tr>
-
+                            @endforeach
 
                         </tbody>
                     </table>
                 </div>
 
                 <div class="d-block card-footer">
-                    <nav role="navigation" aria-label="Pagination Navigation"
-                        class="flex items-center justify-between">
-                        <div class="flex justify-between flex-1 sm:hidden">
-                            <span
-                                class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
-                                « Previous
-                            </span>
-
-                            <a href="#page=2"
-                                class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                                Next »
-                            </a>
-                        </div>
-
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700 leading-5">
-                                    Showing
-                                    <span class="font-medium">1</span>
-                                    to
-                                    <span class="font-medium">5</span>
-                                    of
-                                    <span class="font-medium">9</span>
-                                    results
-                                </p>
-                            </div>
-
-                            <div>
-                                <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                                    <span aria-disabled="true" aria-label="&amp;laquo; Previous">
-                                        <span
-                                            class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5"
-                                            aria-hidden="true">
-                                            <svg class="w-5 h-5" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                        </span>
-                                    </span>
-
-                                    <span aria-current="page">
-                                        <span
-                                            class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5">1</span>
-                                    </span>
-                                    <a href="#page=2"
-                                        class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
-                                        aria-label="Go to page 2">
-                                        2
-                                    </a>
-
-                                    <a href="#page=2" rel="next"
-                                        class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                                        aria-label="Next &amp;raquo;">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
-                    </nav>
+                    {{ $list_users->links('pagination::bootstrap-5') }}
                 </div>
 
             </div>
