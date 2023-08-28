@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Validator;
-class CategoryController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,12 @@ class CategoryController extends Controller
         //
         $keyword = $request->search ?? '';
         if($keyword != ''){
-            $categories = Category::where('name', 'like', '%'.$keyword.'%')->paginate(5);
+            $tags = Tag::where('name', 'like', '%'.$keyword.'%')->paginate(5);
         }
         else {
-            $categories = Category::orderBy('id', 'desc')->paginate(5);
+            $tags = Tag::orderBy('id', 'desc')->paginate(5);
         }
-        return view('Dashboard.category.index', compact('categories'));
+        return view('Dashboard.tag.index',compact('tags'));
     }
 
     /**
@@ -30,7 +30,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        return view('Dashboard.category.create');
+        return view('Dashboard.tag.create');
     }
 
     /**
@@ -40,17 +40,17 @@ class CategoryController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories|max:255|min:3|regex:/^[\p{L}\s]+$/u',
+            'name' => 'required|unique:tags|max:255|min:3|regex:/^[\p{L}\s]+$/u',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-        $category = new Category();
-        $category->name = $request->name;
-        $category->save();
-        return redirect()->route('categories.index')->with('success', 'Thêm danh mục thành công');
+        $tag = new Tag();
+        $tag->name = $request->name;
+        $tag->save();
+        return redirect()->route('tags.index')->with('success', 'Thêm tag thành công');
     }
 
     /**
@@ -67,8 +67,8 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         //
-        $category = Category::findOrFail($id);
-        return view('Dashboard.category.edit', compact('category'));
+        $tag = Tag::findOrFail($id);
+        return view('Dashboard.tag.edit', compact('tag'));
     }
 
     /**
@@ -77,18 +77,18 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $category = Category::findOrFail($id);
+        $tag = Tag::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories,name,'.$category->id,'|max:255|min:3|regex:/^[\p{L}\s]+$/u',
+            'name' => 'required|unique:tags,name,'.$tag->id,'|max:255|min:3|regex:/^[\p{L}\s]+$/u',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-        $category->name = $request->name;
-        $category->save();
-        return redirect()->route('categories.index')->with('success', 'Cập nhật danh mục thành công');
+        $tag->name = $request->name;
+        $tag->save();
+        return redirect()->route('tags.index')->with('success', 'Cập nhật tag thành công');
     }
 
     /**
@@ -97,8 +97,8 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
-        $category = Category::findOrFail($id);
-        $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Xóa danh mục thành công');
+        $tag = Tag::findOrFail($id);
+        $tag->delete();
+        return redirect()->route('tags.index')->with('success', 'Xóa tag thành công');
     }
 }

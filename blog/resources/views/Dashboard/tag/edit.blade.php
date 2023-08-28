@@ -1,7 +1,6 @@
 @extends('Dashboard.layout.base')
 @section('title', 'Admin Dashboard')
 @section('body')
-
     <!-- Main -->
     <div class="app-main__inner">
 
@@ -24,13 +23,15 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data" action="{{ route('tags.store') }}">
+                        <form method="post" enctype="multipart/form-data"
+                            action="{{ route('tags.update', $tag->id) }}">
                             @csrf
+                            @method('PUT')
                             <div class="position-relative row form-group">
                                 <label for="name" class="col-md-3 text-md-right col-form-label">Name</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input name="name" id="name" placeholder="Name" type="text"
-                                        class="form-control" value="{{ old('name') }}">
+                                    <input required name="name" id="name" placeholder="Name" type="text"
+                                        class="form-control" value="{{ $tag->name }}">
                                     @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,4 +60,7 @@ Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
     Route::delete('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy')->middleware('checkAdminDelete');
     Route::resource('/categories', CategoryController::class);
     Route::delete('/categories/{id}/delete', [CategoryController::class, 'destroy'])->name('categories.destroy')->middleware('checkAdminDelete');
+    Route::resource('/tags', TagController::class);
+    Route::delete('/tags/{id}/delete', [TagController::class, 'destroy'])->name('tags.destroy')->middleware('checkAdminDelete');
+    Route::resource('/posts', AdminPostController::class);
 });
