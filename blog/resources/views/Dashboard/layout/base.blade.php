@@ -20,6 +20,7 @@
 
     <link href="Dashboard/main.css" rel="stylesheet">
     <link href="Dashboard/my_style.css" rel="stylesheet">
+    <link href="assets/css/templatemo-stand-blog.css" rel="stylesheet">
 </head>
 
 <body>
@@ -536,6 +537,7 @@
             </div>
         </div>
     </div>
+
     <div class="app-drawer-overlay d-none animated fadeIn"></div>
 
     <script src="Dashboard/assets/scripts/jquery-3.2.1.min.js"></script>

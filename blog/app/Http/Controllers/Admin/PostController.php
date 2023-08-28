@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Post;
+use App\Models\Category;
+use App\Models\User;
 class PostController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class PostController extends Controller
     public function index()
     {
         //
-        return view('Dashboard.post.index');
+        $posts = Post::orderBy('id', 'desc')->paginate(5);
+        return view('Dashboard.post.index', compact('posts'));
     }
 
     /**
@@ -22,6 +25,9 @@ class PostController extends Controller
     public function create()
     {
         //
+        $categories =Category::all();
+        $superUsers = User::where('role','!=','user')->get();
+        return view('Dashboard.post.create',compact('categories','superUsers'));
     }
 
     /**
@@ -38,6 +44,8 @@ class PostController extends Controller
     public function show(string $id)
     {
         //
+        $post = Post::findOrFail($id);
+        return view('Dashboard.post.show', compact('post'));
     }
 
     /**
