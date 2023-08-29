@@ -68,4 +68,5 @@ Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
     Route::delete('/posts/{id}/delete', [AdminPostController::class, 'destroy'])->name('posts.destroy')->middleware('checkAdminDelete');
     Route::resource('/post-tags', PostTagController::class);
     Route::resource('/comments', CommentController::class);
+    Route::delete('/comments/{id}/delete', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('checkAdminDelete');
 });

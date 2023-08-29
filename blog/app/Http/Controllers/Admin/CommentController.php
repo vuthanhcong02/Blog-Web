@@ -39,6 +39,8 @@ class CommentController extends Controller
     public function show(string $id)
     {
         //
+        $comment = PostComment::find($id);
+        return view('Dashboard.comment.show',compact('comment'));
     }
 
     /**
@@ -63,5 +65,12 @@ class CommentController extends Controller
     public function destroy(string $id)
     {
         //
+        $comment = PostComment::find($id);
+        $comment_reply = PostComment::where('parent_id', $comment->id)->get();
+        foreach ($comment_reply as $item) {
+            $item->delete();
+        }
+        $comment->delete();
+        return redirect()->back()->with('success','Xóa bình luận thành công');
     }
 }
