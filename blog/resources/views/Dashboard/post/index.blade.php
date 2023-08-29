@@ -79,7 +79,7 @@
                                                             <div class="widget-content-left">
                                                                 <img style="height: 60px;object-fit: cover" data-toggle="tooltip"
                                                                     title="Image" data-placement="bottom"
-                                                                    src="assets/images/{{ $post->image ?? '' }}"
+                                                                    src="Dashboard/assets/images/blog/{{ $post->image ?? '' }}"
                                                                     alt="">
                                                             </div>
                                                         </div>
@@ -87,7 +87,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-center">{{ substr($post->title ?? '', 0 , 50) }}...</td>
-                                            <td class="text-center">{{ substr($post->content ?? '', 0,150) }}...</td>
+                                            <td class="text-center">{!! substr($post->content ?? '', 0,150) !!}...</td>
                                             <td class="text-center">{{ $post->user->name ?? '' }}</td>
                                             <td class="text-center">{{ $post->category->name ?? '' }}</td>
                                             <td class="text-center">

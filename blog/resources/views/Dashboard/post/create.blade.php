@@ -27,17 +27,19 @@
                             @csrf
                             <div class="position-relative row form-group">
                                 <label for="image" class="col-md-3 text-md-right col-form-label">Hình ảnh</label>
-                                <div class="col-md-9 col-xl-8 d-flex">
-                                    <img src="assets/images/default-blog.jpeg" alt="Generic placeholder image" class="img-fluid"
-                                        style="width: 300px; height: 180px;  object-fit: fill; " name="image"
-                                        id="Image" />
+                                <div class="col-md-9 col-xl-8 d-flex flex-lg-column">
+                                    <img src="assets/images/default-blog.jpeg" alt="Generic placeholder image"
+                                        class="img-fluid" style="width: 300px; height: 180px;  object-fit: fill; "
+                                        name="image" id="Image" />
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-md-9 col-xl-8">
                                     <div class="d-flex flex-column align-items-center justify-content-center">
                                         <label class="label">
-                                            <input type="file" required onchange="Img(this)"
-                                                value="{{ old('image') }}" name="image"
-                                                accept="image/x-png,image/gif,image/jpeg" />
+                                            <input type="file" onchange="Img(this)" value="{{ old('image') }}"
+                                                name="image" accept="image/x-png,image/gif,image/jpeg" />
                                             <span>Chọn hình ảnh</span>
                                         </label>
                                     </div>
@@ -47,16 +49,17 @@
                                 <label for="product_category_id" class="col-md-3 text-md-right col-form-label">Danh
                                     mục</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <select name="category_id" id="category_id" class="form-control">
+                                    <select name="category_id" id="category_id" class="form-control"
+                                        value="{{ old('category_id') }}">
                                         <option value="">-- Danh mục --</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">
+                                            <option value="{{ $category->id }}"{{old('category_id') == $category->id ? 'selected' : ''}}>
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
-                                        <strong class="text-danger">{{ $message }}</strong>
+                                        <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -67,7 +70,7 @@
                                     <input name="title" id="title" placeholder="Title" type="text"
                                         class="form-control" value="{{ old('title') }}">
                                     @error('title')
-                                        <strong class="text-danger">{{ $message }}</strong>
+                                        <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -75,10 +78,10 @@
                             <div class="position-relative row form-group">
                                 <label for="content" class="col-md-3 text-md-right col-form-label">Content</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <input name="content" id="content" placeholder="Content" type="text"
-                                        class="form-control" value="{{ old('content') }}">
+                                    <textarea name="content" id="content" placeholder="Content" type="text"
+                                        class="form-control" value="{{ old('content') }}" ></textarea>
                                     @error('content')
-                                        <strong class="text-danger">{{ $message }}</strong>
+                                        <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -89,16 +92,17 @@
                                     <select name="user_id" id="user_id" class="form-control">
                                         <option value="">-- Tác giả --</option>
                                         @foreach ($superUsers as $user)
-                                            <option value="{{ $user->id }}">
+                                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                                 {{ $user->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('user_id')
-                                        <strong class="text-danger">{{ $message }}</strong>
+                                        <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+
 
                             <div class="position-relative row form-group mb-1">
                                 <div class="col-md-9 col-xl-8 offset-md-2">

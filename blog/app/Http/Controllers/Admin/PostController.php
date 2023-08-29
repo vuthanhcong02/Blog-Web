@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
+use App\Http\Requests\StorePostRequest;
+use App\Utilities\UploadFile;
 class PostController extends Controller
 {
     /**
@@ -33,9 +35,22 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
         //
+        $blog = new Post();
+        if($request->hasFile('image')){
+            $data['path'] = UploadFile::uploadFile($request->file('image'),'Dashboard/assets/images/blog/');
+            unset($data['image']);
+        }
+        $blog->image = $data['path'];
+        $blog->title = $request->title;
+        $blog->content = $request->content;
+        $blog->user_id = $request->user_id;
+        $blog->category_id = $request->category_id;
+        $blog->save();
+        // dd($data);
+        return redirect()->route('posts.index')->with('success','Thêm bài viết thành công');
     }
 
     /**
