@@ -133,5 +133,12 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         //
+        $image_name = Post::find($id)->image;
+        // dd($image_name);
+        if($image_name !=''){
+            unlink('Dashboard/assets/images/blog/' . $image_name);
+        }
+        Post::find($id)->delete();
+        return redirect()->route('posts.index')->with('success', 'Xóa bài viết thành công');
     }
 }
