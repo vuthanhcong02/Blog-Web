@@ -112,7 +112,7 @@
                         newPosts += `<div class="col-lg-12">
                         <div class="blog-post">
                             <div class="blog-thumb">
-                                <img src="assets/images/${post.image}" alt="">
+                                <img src="Dashboard/assets/images/blog/${post.image}" alt="">
                             </div>
                             <div class="down-content">
                             ${post.category ? `<span>${post.category.name}</span>` : ''}
