@@ -21,6 +21,14 @@
         </div>
         <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
             <li class="nav-item">
+                <a href="{{ route('posts.index') }}" class="nav-link">
+                    <span class="btn-icon-wrapper pr-2 opacity-8">
+                        <i class="fa fa-edit fa-w-20"></i>
+                    </span>
+                    <span>Back</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('posts.edit', $post->id) }}" class="nav-link">
                     <span class="btn-icon-wrapper pr-2 opacity-8">
                         <i class="fa fa-edit fa-w-20"></i>
@@ -54,7 +62,7 @@
                                 <ul class="text-nowrap overflow-auto" id="images">
                                         <li class="d-inline-block mr-1" style="position: relative;">
                                             <img style="height: 150px;"
-                                                src="assets/images/{{ $post->image ?? '' }}" alt="Image">
+                                                src="Dashboard/assets/images/blog/{{ $post->image ?? '' }}" alt="Image">
                                         </li>
                                 </ul>
                             </div>
@@ -83,7 +91,7 @@
                         <div class="position-relative row form-group">
                             <label for="content" class="col-md-3 text-md-right col-form-label">Content</label>
                             <div class="col-md-9 col-xl-8">
-                                <p>{{ $post->content ?? ''}}</p>
+                                <p>{!! $post->content ?? ''!!}</p>
                             </div>
                         </div>
                         <div class="position-relative row form-group">

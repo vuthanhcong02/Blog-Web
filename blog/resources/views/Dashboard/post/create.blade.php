@@ -28,9 +28,11 @@
                             <div class="position-relative row form-group">
                                 <label for="image" class="col-md-3 text-md-right col-form-label">Hình ảnh</label>
                                 <div class="col-md-9 col-xl-8 d-flex flex-lg-column">
-                                    <img src="assets/images/default-blog.jpeg" alt="Generic placeholder image"
-                                        class="img-fluid" style="width: 300px; height: 180px;  object-fit: fill; "
-                                        name="image" id="Image" />
+                                    <img src="Dashboard/assets/images/blog/default-blog.jpeg"
+                                        alt="Generic placeholder image" class="img-fluid"
+                                        style="width: 300px; height: 180px; object-fit: fill;" name="image"
+                                        id="Image" />
+
                                     @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -53,7 +55,8 @@
                                         value="{{ old('category_id') }}">
                                         <option value="">-- Danh mục --</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"{{old('category_id') == $category->id ? 'selected' : ''}}>
+                                            <option
+                                                value="{{ $category->id }}"{{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach
@@ -78,8 +81,8 @@
                             <div class="position-relative row form-group">
                                 <label for="content" class="col-md-3 text-md-right col-form-label">Content</label>
                                 <div class="col-md-9 col-xl-8">
-                                    <textarea name="content" id="content" placeholder="Content" type="text"
-                                        class="form-control" value="{{ old('content') }}" ></textarea>
+                                    <textarea name="content" id="content" placeholder="Content" type="text" class="form-control"
+                                        value="{{ old('content') }}"></textarea>
                                     @error('content')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -92,7 +95,8 @@
                                     <select name="user_id" id="user_id" class="form-control">
                                         <option value="">-- Tác giả --</option>
                                         @foreach ($superUsers as $user)
-                                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                            <option value="{{ $user->id }}"
+                                                {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                                 {{ $user->name }}
                                             </option>
                                         @endforeach
