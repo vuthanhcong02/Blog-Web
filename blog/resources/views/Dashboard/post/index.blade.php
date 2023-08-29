@@ -129,7 +129,7 @@
                     </div>
 
                     <div class="d-block card-footer">
-                        {{ $posts->links() }}
+                        {{ $posts->links('pagination::bootstrap-5') }}
                     </div>
 
                 </div>

@@ -10,10 +10,23 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $comments = PostComment::orderBy('created_at', 'desc')->paginate(5);
+        $keyword = $request->search ?? '';
+        if($keyword != '') {
+            $comments = PostComment::where('content', 'like', '%' . $keyword . '%')
+                                    ->orWhereHas('post', function ($query) use ($keyword) {
+                                        $query->where('title', 'like', '%' . $keyword . '%');
+                                    })
+                                    ->orWhereHas('user', function ($query) use ($keyword) {
+                                        $query->where('name', 'like', '%' . $keyword . '%');
+                                    })
+                                    ->orderBy('created_at', 'desc')->paginate(5);
+        }
+        else {
+            $comments = PostComment::orderBy('created_at', 'desc')->paginate(5);
+        }
         return view('Dashboard.comment.index',compact('comments'));
     }
 

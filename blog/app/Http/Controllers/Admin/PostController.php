@@ -17,10 +17,24 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $posts = Post::orderBy('id', 'desc')->paginate(5);
+        $keyword = $request->search ?? '';
+        if($keyword != ''){
+            $posts = Post::where('title', 'like', '%'.$keyword.'%')
+                           ->orWhereHas('category', function($query) use ($keyword){
+                               $query->where('name', 'like', '%'.$keyword.'%');
+                           })
+                           ->orWhereHas('user', function($query) use ($keyword){
+                               $query->where('name', 'like', '%'.$keyword.'%');
+                           })
+                            ->orderBy('id', 'desc')->paginate(5);
+        }
+        else{
+            $posts = Post::orderBy('id', 'desc')->paginate(5);
+        }
+        // $posts = Post::orderBy('id', 'desc')->paginate(5);
         return view('Dashboard.post.index', compact('posts'));
     }
 
