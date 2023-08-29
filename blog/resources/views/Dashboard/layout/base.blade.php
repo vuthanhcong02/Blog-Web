@@ -439,6 +439,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="admin/post-tags" class="{{request()->segment(2) == 'post-tags' ? 'mm-active' : ''}}">
+                                            <i class="metismenu-icon"></i>Post-Tag
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="admin/categories" class="{{request()->segment(2) == 'categories' ? 'mm-active' : ''}}">
                                             <i class="metismenu-icon"></i>Category
                                         </a>

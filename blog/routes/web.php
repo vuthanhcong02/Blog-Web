@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\PostTagController;
+use App\Http\Controllers\Admin\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,4 +66,6 @@ Route::prefix('/admin')->middleware('checkAdminLogin')->group(function(){
     Route::delete('/tags/{id}/delete', [TagController::class, 'destroy'])->name('tags.destroy')->middleware('checkAdminDelete');
     Route::resource('/posts', AdminPostController::class);
     Route::delete('/posts/{id}/delete', [AdminPostController::class, 'destroy'])->name('posts.destroy')->middleware('checkAdminDelete');
+    Route::resource('/post-tags', PostTagController::class);
+    Route::resource('/comments', CommentController::class);
 });
