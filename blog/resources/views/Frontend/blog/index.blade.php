@@ -41,7 +41,7 @@
                                         <li><a href="#">{{ $post->created_at->format('d-m-Y')}}</a></li>
                                         <li><a href="#">{{count($post->comments)}} Comments</a></li>
                                     </ul>
-                                    <p>{{ \Illuminate\Support\Str::limit($post->content, 100) }}</p>
+                                    <p>{!! \Illuminate\Support\Str::limit($post->content, 100) !!}</p>
                                     <div class="post-options">
                                         <div class="row">
                                             <div class="col-lg-12">

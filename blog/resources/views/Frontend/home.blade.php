@@ -7,7 +7,7 @@
         <div class="owl-banner owl-carousel">
             @foreach($posts_featured as $post)
             <div class="item">
-                <img src="assets/images/{{$post->image}}" alt="banner">
+                <img src="Dashboard/assets/images/blog/{{$post->image}}" alt="banner">
                 <div class="item-content">
                     <div class="main-content">
                         <div class="meta-category">

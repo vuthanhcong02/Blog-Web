@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="d-block card-footer">
-                        {{ $tags->links() }}
+                        {{ $tags->links('pagination::bootstrap-5') }}
                     </div>
 
                 </div>

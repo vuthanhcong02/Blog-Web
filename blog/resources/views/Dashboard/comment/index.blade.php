@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="d-block card-footer">
-                        {{ $comments->links() }}
+                        {{ $comments->links('pagination::bootstrap-5') }}
                     </div>
 
                 </div>
