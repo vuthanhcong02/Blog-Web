@@ -39,7 +39,7 @@ class PostTagController extends Controller
         //
         $data = $request->validate([
             'post_id' => 'required',
-            'tag_id' => 'required|exists:tags,id|unique:post_tags'
+            'tag_id' => 'required|exists:tags,id'
         ]);
 
         $postTag = PostTag::create($data);
