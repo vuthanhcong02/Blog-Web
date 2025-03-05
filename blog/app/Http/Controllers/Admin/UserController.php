@@ -28,7 +28,7 @@ class UserController extends Controller
             $list_users = User::where('role', '!=', 'admin')
             ->orderBy('id', 'desc')->paginate(5);
         }
-        return view('Dashboard.user.index',compact('list_users'));
+        return view('dashboard.user.index',compact('list_users'));
     }
 
     /**
@@ -37,7 +37,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('Dashboard.user.create');
+        return view('dashboard.user.create');
     }
 
     /**
@@ -72,7 +72,7 @@ class UserController extends Controller
     {
         //
         $user =  User::findOrFail($id);
-        return view('Dashboard.user.edit',compact('user'));
+        return view('dashboard.user.edit',compact('user'));
     }
 
     /**

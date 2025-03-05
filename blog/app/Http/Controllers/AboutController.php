@@ -12,7 +12,7 @@ class AboutController extends Controller
     public function index()
     {
         //
-        return view('Frontend.about.index');
+        return view('frontend.about.index');
     }
 
     /**

@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        View::composer(['Frontend.partials.tagList','Frontend.partials.categoryList','Frontend.partials.listPostRecent'], function ($view) {
+        View::composer(['frontend.partials.tagList','frontend.partials.categoryList','frontend.partials.listPostRecent'], function ($view) {
             $categories = Category::all();
             $tags = Tag::all();
             $posts_recent = Post::orderBy('created_at', 'desc')->take(3)->get();

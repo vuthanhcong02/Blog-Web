@@ -27,7 +27,7 @@ class CommentController extends Controller
         else {
             $comments = PostComment::orderBy('created_at', 'desc')->paginate(5);
         }
-        return view('Dashboard.comment.index',compact('comments'));
+        return view('dashboard.comment.index',compact('comments'));
     }
 
     /**
@@ -53,7 +53,7 @@ class CommentController extends Controller
     {
         //
         $comment = PostComment::find($id);
-        return view('Dashboard.comment.show',compact('comment'));
+        return view('dashboard.comment.show',compact('comment'));
     }
 
     /**

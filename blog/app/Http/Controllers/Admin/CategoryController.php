@@ -21,7 +21,7 @@ class CategoryController extends Controller
         else {
             $categories = Category::orderBy('id', 'desc')->paginate(5);
         }
-        return view('Dashboard.category.index', compact('categories'));
+        return view('dashboard.category.index', compact('categories'));
     }
 
     /**
@@ -30,7 +30,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        return view('Dashboard.category.create');
+        return view('dashboard.category.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class CategoryController extends Controller
     {
         //
         $category = Category::findOrFail($id);
-        return view('Dashboard.category.edit', compact('category'));
+        return view('dashboard.category.edit', compact('category'));
     }
 
     /**

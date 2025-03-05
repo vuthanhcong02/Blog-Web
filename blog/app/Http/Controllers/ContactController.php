@@ -14,7 +14,7 @@ class ContactController extends Controller
     public function index()
     {
         //
-        return view('Frontend.contact.index');
+        return view('frontend.contact.index');
     }
     public function sendEmailContact(CheckContactRequest $request){
 
@@ -26,7 +26,7 @@ class ContactController extends Controller
                 'subject' => $request->subject,
                 'body' => $request->message
             ];
-            Mail::send('Frontend.contact.emailcontact', $data_email, function($message) use ($data_email){
+            Mail::send('frontend.contact.emailcontact', $data_email, function($message) use ($data_email){
                 $message->from($data_email['fromEmail'], $data_email['fromName']);
                 $message->to($data_email['recipient']);
                 $message->subject($data_email['subject']);

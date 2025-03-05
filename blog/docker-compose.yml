@@ -37,6 +37,8 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - laravel
 
@@ -55,3 +57,5 @@ services:
 networks:
   laravel:
     driver: bridge
+volumes:
+  mysql_data:

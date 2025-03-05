@@ -21,7 +21,7 @@ class TagController extends Controller
         else {
             $tags = Tag::orderBy('id', 'desc')->paginate(5);
         }
-        return view('Dashboard.tag.index',compact('tags'));
+        return view('dashboard.tag.index',compact('tags'));
     }
 
     /**
@@ -30,7 +30,7 @@ class TagController extends Controller
     public function create()
     {
         //
-        return view('Dashboard.tag.create');
+        return view('dashboard.tag.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class TagController extends Controller
     {
         //
         $tag = Tag::findOrFail($id);
-        return view('Dashboard.tag.edit', compact('tag'));
+        return view('dashboard.tag.edit', compact('tag'));
     }
 
     /**

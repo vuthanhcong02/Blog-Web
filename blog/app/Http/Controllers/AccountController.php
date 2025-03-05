@@ -15,7 +15,7 @@ class AccountController extends Controller
     //
     public function login(Request $request)
     {
-        return view('Frontend.account.login');
+        return view('frontend.account.login');
     }
     public function checkLogin(CheckUserRequest $request)
     {
@@ -44,7 +44,7 @@ class AccountController extends Controller
     }
     public function register(Request $request)
     {
-        return view('Frontend.account.register');
+        return view('frontend.account.register');
     }
     public function checkRegister(CheckUserRegisterRequest $request){
         $email_exsist = User::where('email',$request->email)->first();
@@ -62,7 +62,7 @@ class AccountController extends Controller
         return redirect('/account/login');
     }
     public function settingAccount(){
-        return view('Frontend.account.setting');
+        return view('frontend.account.setting');
     }
     public function changeAvatar(Request $request){
         if($request->hasFile('avatar')){

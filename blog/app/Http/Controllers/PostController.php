@@ -38,7 +38,7 @@ class PostController extends Controller
             $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         }
 
-        return view('Frontend.blog.index', compact('posts'));
+        return view('frontend.blog.index', compact('posts'));
     }
     public function getPostByCategory(Request $request, $categoryName)
     {
@@ -51,7 +51,7 @@ class PostController extends Controller
         } else {
             $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
         }
-        return view('Frontend.blog.index', compact('posts'));
+        return view('frontend.blog.index', compact('posts'));
     }
     public function getPostByTag(Request $request, $tagName)
     {
@@ -63,7 +63,7 @@ class PostController extends Controller
         } else {
             $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
         }
-        return view('Frontend.blog.index', compact('posts'));
+        return view('frontend.blog.index', compact('posts'));
     }
     /**
      * Show the form for creating a new resource.
@@ -99,7 +99,7 @@ class PostController extends Controller
         $comments = Post::findOrFail($post_id);
         $list_comments = $comments->comments()->whereNull('parent_id')->orderBy('created_at', 'desc')->get();
         // echo $title;
-        return view('Frontend.blog.show', compact('post', 'list_comments'));
+        return view('frontend.blog.show', compact('post', 'list_comments'));
     }
     public function postComment(Request $request, String $id)
     {

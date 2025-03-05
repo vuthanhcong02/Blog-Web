@@ -35,7 +35,7 @@ class PostController extends Controller
             $posts = Post::orderBy('id', 'desc')->paginate(5);
         }
         // $posts = Post::orderBy('id', 'desc')->paginate(5);
-        return view('Dashboard.post.index', compact('posts'));
+        return view('dashboard.post.index', compact('posts'));
     }
 
     /**
@@ -46,7 +46,7 @@ class PostController extends Controller
         //
         $categories = Category::all();
         $superUsers = User::where('role', '!=', 'user')->get();
-        return view('Dashboard.post.create', compact('categories', 'superUsers'));
+        return view('dashboard.post.create', compact('categories', 'superUsers'));
     }
 
     /**
@@ -81,7 +81,7 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        return view('Dashboard.post.show', compact('post'));
+        return view('dashboard.post.show', compact('post'));
     }
 
     /**
@@ -93,7 +93,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $categories = Category::all();
         $superUsers = User::where('role', '!=', 'user')->get();
-        return view('Dashboard.post.edit', compact('categories', 'superUsers', 'post'));
+        return view('dashboard.post.edit', compact('categories', 'superUsers', 'post'));
     }
 
     /**
@@ -137,7 +137,7 @@ class PostController extends Controller
 
     protected function uploadImage($imageFile)
     {
-        $imagePath = UploadFile::uploadFile($imageFile, 'Dashboard/assets/images/blog/');
+        $imagePath = UploadFile::uploadFile($imageFile, 'dashboard/assets/images/blog/');
         return $imagePath;
     }
 
@@ -150,7 +150,7 @@ class PostController extends Controller
         $image_name = Post::find($id)->image;
         // dd($image_name);
         if($image_name !=''){
-            unlink('Dashboard/assets/images/blog/' . $image_name);
+            unlink('dashboard/assets/images/blog/' . $image_name);
         }
         Post::find($id)->delete();
         return redirect()->route('posts.index')->with('success', 'Xóa bài viết thành công');

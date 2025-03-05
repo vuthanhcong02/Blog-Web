@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function index()
     {
         //
-        return view('Dashboard.login.index');
+        return view('dashboard.login.index');
     }
     public function checkAdminLogin (CheckUserRequest $request){
         $data_infor = [

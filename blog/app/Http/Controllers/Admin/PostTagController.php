@@ -17,7 +17,7 @@ class PostTagController extends Controller
         //
         $list_post_tags = Post::
                     orderBy('id', 'desc')->paginate(5);
-        return view('Dashboard.post-tags.index', compact('list_post_tags'));
+        return view('dashboard.post-tags.index', compact('list_post_tags'));
     }
 
     /**
@@ -28,7 +28,7 @@ class PostTagController extends Controller
         //
         $posts = Post::orderBy('id', 'desc')->get();
         $tags = Tag::orderBy('id', 'desc')->get();
-        return view('Dashboard.post-tags.create', compact('posts', 'tags'));
+        return view('dashboard.post-tags.create', compact('posts', 'tags'));
     }
 
     /**
