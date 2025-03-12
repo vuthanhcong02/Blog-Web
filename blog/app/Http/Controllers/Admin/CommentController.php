@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\PostComment;
+use Illuminate\Http\Request;
+
 class CommentController extends Controller
 {
     /**
@@ -14,20 +15,20 @@ class CommentController extends Controller
     {
         //
         $keyword = $request->search ?? '';
-        if($keyword != '') {
-            $comments = PostComment::where('content', 'like', '%' . $keyword . '%')
-                                    ->orWhereHas('post', function ($query) use ($keyword) {
-                                        $query->where('title', 'like', '%' . $keyword . '%');
-                                    })
-                                    ->orWhereHas('user', function ($query) use ($keyword) {
-                                        $query->where('name', 'like', '%' . $keyword . '%');
-                                    })
-                                    ->orderBy('created_at', 'desc')->paginate(5);
-        }
-        else {
+        if ($keyword != '') {
+            $comments = PostComment::where('content', 'like', '%'.$keyword.'%')
+                ->orWhereHas('post', function ($query) use ($keyword) {
+                    $query->where('title', 'like', '%'.$keyword.'%');
+                })
+                ->orWhereHas('user', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->orderBy('created_at', 'desc')->paginate(5);
+        } else {
             $comments = PostComment::orderBy('created_at', 'desc')->paginate(5);
         }
-        return view('dashboard.comment.index',compact('comments'));
+
+        return view('dashboard.comment.index', compact('comments'));
     }
 
     /**
@@ -53,7 +54,8 @@ class CommentController extends Controller
     {
         //
         $comment = PostComment::find($id);
-        return view('dashboard.comment.show',compact('comment'));
+
+        return view('dashboard.comment.show', compact('comment'));
     }
 
     /**
@@ -84,6 +86,7 @@ class CommentController extends Controller
             $item->delete();
         }
         $comment->delete();
-        return redirect()->back()->with('success','Xóa bình luận thành công');
+
+        return redirect()->back()->with('success', 'Xóa bình luận thành công');
     }
 }

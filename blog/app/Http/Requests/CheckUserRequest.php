@@ -27,7 +27,9 @@ class CheckUserRequest extends FormRequest
             'password' => 'required | min:6',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             //
             'email.email' => ':attribute không hợp lệ',
@@ -36,7 +38,9 @@ class CheckUserRequest extends FormRequest
             'password.min' => ':attribute phải có ít nhất 6 kí tự',
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
         return [
             //
             'email' => 'Email',

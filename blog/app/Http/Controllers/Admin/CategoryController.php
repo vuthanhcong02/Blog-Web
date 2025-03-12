@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class CategoryController extends Controller
 {
     /**
@@ -15,12 +16,12 @@ class CategoryController extends Controller
     {
         //
         $keyword = $request->search ?? '';
-        if($keyword != ''){
+        if ($keyword != '') {
             $categories = Category::where('name', 'like', '%'.$keyword.'%')->paginate(5);
-        }
-        else {
+        } else {
             $categories = Category::orderBy('id', 'desc')->paginate(5);
         }
+
         return view('dashboard.category.index', compact('categories'));
     }
 
@@ -47,9 +48,10 @@ class CategoryController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $category = new Category();
+        $category = new Category;
         $category->name = $request->name;
         $category->save();
+
         return redirect()->route('categories.index')->with('success', 'Thêm danh mục thành công');
     }
 
@@ -68,6 +70,7 @@ class CategoryController extends Controller
     {
         //
         $category = Category::findOrFail($id);
+
         return view('dashboard.category.edit', compact('category'));
     }
 
@@ -79,7 +82,7 @@ class CategoryController extends Controller
         //
         $category = Category::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories,name,'.$category->id,'|max:255|min:3|regex:/^[\p{L}\s]+$/u',
+            'name' => 'required|unique:categories,name,'.$category->id, '|max:255|min:3|regex:/^[\p{L}\s]+$/u',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
@@ -88,6 +91,7 @@ class CategoryController extends Controller
         }
         $category->name = $request->name;
         $category->save();
+
         return redirect()->route('categories.index')->with('success', 'Cập nhật danh mục thành công');
     }
 
@@ -99,6 +103,7 @@ class CategoryController extends Controller
         //
         $category = Category::findOrFail($id);
         $category->delete();
+
         return redirect()->route('categories.index')->with('success', 'Xóa danh mục thành công');
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\PostComment;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -17,8 +16,10 @@ class HomeController extends Controller
 
         $posts_list = Post::take(4)->get();
         $posts_featured = Post::where('like_count', '>=', 10)->orderBy('like_count', 'desc')->get();
+
         return view('frontend.home', compact('posts_featured', 'posts_list'));
     }
+
     public function loadMore(Request $request)
     {
 
@@ -31,9 +32,9 @@ class HomeController extends Controller
             ->take($limit)
             ->get();
 
-
         return response()->json($posts);
     }
+
     /**
      * Show the form for creating a new resource.
      */

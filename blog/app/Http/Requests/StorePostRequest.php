@@ -30,7 +30,9 @@ class StorePostRequest extends FormRequest
             'category_id' => 'required| exists:categories,id',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             'image.required' => ':attribute phải được chọn',
             'image.image' => ':attribute không đúng định dạng',
@@ -48,7 +50,9 @@ class StorePostRequest extends FormRequest
             'category_id.exists' => ':attribute không tồn tại',
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
         return [
             'image' => 'Ảnh',
             'title' => 'Tiêu đề',

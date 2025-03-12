@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckUserChangeProfileRequest;
+use App\Http\Requests\CheckUserRegisterRequest;
+use App\Http\Requests\CheckUserRequest;
+use App\Models\User;
+use App\Utilities\UploadFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use App\Http\Requests\CheckUserRequest;
-use App\Http\Requests\CheckUserRegisterRequest;
-use App\Http\Requests\CheckUserChangeProfileRequest;
-use App\Utilities\UploadFile;
-class AccountController extends Controller
+
+class AuthController extends Controller
 {
     //
     public function login(Request $request)
     {
-        return view('frontend.account.login');
+        return view('frontend.auth.login');
     }
-    public function checkLogin(CheckUserRequest $request)
+
+    public function postLogin(CheckUserRequest $request)
     {
-        $dataInfor  = [
+        $dataInfor = [
             'email' => $request->email,
             'password' => $request->password,
         ];
         $remember = isset($request->remember) ? true : false;
         if (Auth::attempt($dataInfor, $remember)) {
-            //return redirect('/');
+            // return redirect('/');
             $previousUrl = $request->input('previous');
             if ($previousUrl) {
                 return redirect()->to($previousUrl);
@@ -37,21 +39,26 @@ class AccountController extends Controller
         }
         // dd($dataInfor);
     }
+
     public function logout()
     {
         Auth::logout();
+
         return redirect()->back();
     }
+
     public function register(Request $request)
     {
-        return view('frontend.account.register');
+        return view('frontend.auth.register');
     }
-    public function checkRegister(CheckUserRegisterRequest $request){
-        $email_exsist = User::where('email',$request->email)->first();
-        if($email_exsist){
-            return redirect()->back()->with('error','Email đã tồn tại! Hãy sử dụng email khác!');
+
+    public function postRegister(CheckUserRegisterRequest $request)
+    {
+        $email_exsist = User::where('email', $request->email)->first();
+        if ($email_exsist) {
+            return redirect()->back()->with('error', 'Email đã tồn tại! Hãy sử dụng email khác!');
         }
-        $dataInfor  = [
+        $dataInfor = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -59,38 +66,47 @@ class AccountController extends Controller
         User::create($dataInfor);
         session(['registered_email' => $request->email]);
         session(['registered_password' => $request->password]);
+
         return redirect('/account/login');
     }
-    public function settingAccount(){
-        return view('frontend.account.setting');
+
+    public function settingAccount()
+    {
+        return view('frontend.auth.setting');
     }
-    public function changeAvatar(Request $request){
-        if($request->hasFile('avatar')){
+
+    public function changeAvatar(Request $request)
+    {
+        if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $avatar_old = Auth::user()->avatar;
             $fileName = UploadFile::uploadFile($file, 'assets/images/avatar');
-            User::where('id',Auth::user()->id)->update(['avatar' => $fileName]);
-            if ($avatar_old && file_exists(public_path('assets/images/avatar/' . $avatar_old))) {
-                unlink(public_path('assets/images/avatar/' . $avatar_old));
+            User::where('id', Auth::user()->id)->update(['avatar' => $fileName]);
+            if ($avatar_old && file_exists(public_path('assets/images/avatar/'.$avatar_old))) {
+                unlink(public_path('assets/images/avatar/'.$avatar_old));
             }
+
             return redirect()->back();
         }
     }
-    public function updateProfile(CheckUserChangeProfileRequest $request){
 
-        if($request->password == null){
-            $dataInfor  = [
+    public function updateProfile(CheckUserChangeProfileRequest $request)
+    {
+
+        if ($request->password == null) {
+            $dataInfor = [
                 'name' => $request->name,
                 'email' => $request->email,
             ];
-        }else{
-            $dataInfor  = [
+        } else {
+            $dataInfor = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ];
         }
-        User::where('id',Auth::user()->id)->update($dataInfor);
-        return redirect()->back()->with('success','Thông tin đã được lưu thành công');
+        User::where('id', Auth::user()->id)->update($dataInfor);
+
+        return redirect()->back()->with('success', 'Thông tin đã được lưu thành công');
     }
 }

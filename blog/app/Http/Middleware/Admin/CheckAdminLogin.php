@@ -2,11 +2,12 @@
 
 namespace App\Http\Middleware\Admin;
 
+use App\Utilities\Constants;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Utilities\Constants;
+use Symfony\Component\HttpFoundation\Response;
+
 class CheckAdminLogin
 {
     /**
@@ -16,15 +17,17 @@ class CheckAdminLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::guest()){
+        if (Auth::guest()) {
             return redirect()->route('admin.login');
         }
-        if(Auth::user()->role != Constants::USER_LEVEL_ADMIN && Auth::user()->role != Constants::USER_LEVEL_MANAGER){
+        if (Auth::user()->role != Constants::USER_LEVEL_ADMIN && Auth::user()->role != Constants::USER_LEVEL_MANAGER) {
             Auth::logout();
             toastr()->timeOut(2000)
-            ->addError('Bạn không có quyền truy cập vào trang này');
+                ->addError('Bạn không có quyền truy cập vào trang này');
+
             return redirect()->route('admin.login');
         }
+
         return $next($request);
     }
 }

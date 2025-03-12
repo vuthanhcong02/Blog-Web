@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CheckContactRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 class ContactController extends Controller
 {
     /**
@@ -16,37 +16,45 @@ class ContactController extends Controller
         //
         return view('frontend.contact.index');
     }
-    public function sendEmailContact(CheckContactRequest $request){
 
-        if($this->isOnline()){
+    public function sendEmailContact(CheckContactRequest $request)
+    {
+
+        if ($this->isOnline()) {
             $data_email = [
                 'recipient' => 'daiseikou02@gmail.com',
                 'fromName' => $request->name,
                 'fromEmail' => $request->email,
                 'subject' => $request->subject,
-                'body' => $request->message
+                'body' => $request->message,
             ];
-            Mail::send('frontend.contact.emailcontact', $data_email, function($message) use ($data_email){
+            Mail::send('frontend.contact.emailcontact', $data_email, function ($message) use ($data_email) {
                 $message->from($data_email['fromEmail'], $data_email['fromName']);
                 $message->to($data_email['recipient']);
                 $message->subject($data_email['subject']);
                 $message->replyTo($data_email['fromEmail'], $data_email['fromName']);
             });
             toastr()->timeOut(2000)
-                    ->addSuccess('Cảm ơn bạn đã liên hệ với chúng tôi.');
+                ->addSuccess('Cảm ơn bạn đã liên hệ với chúng tôi.');
+
             return redirect()->back();
         }
         toastr()->timeOut(2000)
-                ->addError('Vui lòng kiểm tra kết nối mạng của bạn.');
+            ->addError('Vui lòng kiểm tra kết nối mạng của bạn.');
+
         return redirect()->back();
 
     }
-    public function isOnline($site = 'http://youtube.com/'){
-        if(@fopen($site, 'r')){
+
+    public function isOnline($site = 'http://youtube.com/')
+    {
+        if (@fopen($site, 'r')) {
             return true;
         }
+
         return false;
     }
+
     /**
      * Show the form for creating a new resource.
      */

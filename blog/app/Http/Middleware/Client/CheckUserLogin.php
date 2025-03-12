@@ -16,10 +16,11 @@ class CheckUserLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //Kiểm tra xem người dùng đã đăng nhập hay chưa : Chưa đăng nhập =>true
-        if(Auth::guest()){
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa : Chưa đăng nhập =>true
+        if (Auth::guest()) {
             return redirect()->guest('/account/login');
         }
+
         return $next($request);
     }
 }

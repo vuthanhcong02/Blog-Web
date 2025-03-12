@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 use App\Models\Category;
-use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Tag;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,11 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        View::composer(['frontend.partials.tagList','frontend.partials.categoryList','frontend.partials.listPostRecent'], function ($view) {
+        View::composer(['frontend.partials.tagList', 'frontend.partials.categoryList', 'frontend.partials.listPostRecent'], function ($view) {
             $categories = Category::all();
             $tags = Tag::all();
             $posts_recent = Post::orderBy('created_at', 'desc')->take(3)->get();
-            $view->with(compact('categories', 'tags','posts_recent'));
+            $view->with(compact('categories', 'tags', 'posts_recent'));
         });
     }
 }

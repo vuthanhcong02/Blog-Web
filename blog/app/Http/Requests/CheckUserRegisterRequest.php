@@ -29,7 +29,9 @@ class CheckUserRegisterRequest extends FormRequest
             'repassword' => 'required | min:6 | same:password',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             //
             'name.required' => ':attribute không được để trống',
@@ -47,7 +49,9 @@ class CheckUserRegisterRequest extends FormRequest
             'repassword.same' => ':attribute không trùng khớp',
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
         return [
             //
             'name' => 'Tên',

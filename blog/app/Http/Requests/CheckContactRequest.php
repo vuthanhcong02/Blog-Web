@@ -26,10 +26,12 @@ class CheckContactRequest extends FormRequest
             'name' => 'required | min:3 | max:50',
             'email' => 'required | email ',
             'subject' => 'required | min:3 |max:50',
-            'message' => 'required | min:3'
+            'message' => 'required | min:3',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             //
             'name.required' => ':attribute không được để trống',
@@ -44,7 +46,9 @@ class CheckContactRequest extends FormRequest
             'message.min' => ':attribute phải có ít nhất 3 kí tự',
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
         return [
             //
             'name' => 'Tên',

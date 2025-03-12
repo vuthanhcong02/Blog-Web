@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class TagController extends Controller
 {
     /**
@@ -15,13 +16,13 @@ class TagController extends Controller
     {
         //
         $keyword = $request->search ?? '';
-        if($keyword != ''){
+        if ($keyword != '') {
             $tags = Tag::where('name', 'like', '%'.$keyword.'%')->paginate(5);
-        }
-        else {
+        } else {
             $tags = Tag::orderBy('id', 'desc')->paginate(5);
         }
-        return view('dashboard.tag.index',compact('tags'));
+
+        return view('dashboard.tag.index', compact('tags'));
     }
 
     /**
@@ -47,9 +48,10 @@ class TagController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $tag = new Tag();
+        $tag = new Tag;
         $tag->name = $request->name;
         $tag->save();
+
         return redirect()->route('tags.index')->with('success', 'Thêm tag thành công');
     }
 
@@ -68,6 +70,7 @@ class TagController extends Controller
     {
         //
         $tag = Tag::findOrFail($id);
+
         return view('dashboard.tag.edit', compact('tag'));
     }
 
@@ -79,7 +82,7 @@ class TagController extends Controller
         //
         $tag = Tag::findOrFail($id);
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:tags,name,'.$tag->id,'|max:255|min:3|regex:/^[\p{L}\s]+$/u',
+            'name' => 'required|unique:tags,name,'.$tag->id, '|max:255|min:3|regex:/^[\p{L}\s]+$/u',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
@@ -88,6 +91,7 @@ class TagController extends Controller
         }
         $tag->name = $request->name;
         $tag->save();
+
         return redirect()->route('tags.index')->with('success', 'Cập nhật tag thành công');
     }
 
@@ -99,6 +103,7 @@ class TagController extends Controller
         //
         $tag = Tag::findOrFail($id);
         $tag->delete();
+
         return redirect()->route('tags.index')->with('success', 'Xóa tag thành công');
     }
 }

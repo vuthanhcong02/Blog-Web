@@ -28,7 +28,9 @@ class CheckUserChangeProfileRequest extends FormRequest
             'password' => 'nullable | min:6',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             //
             'name.required' => ':attribute không được để trống',
@@ -40,7 +42,9 @@ class CheckUserChangeProfileRequest extends FormRequest
             'password.min' => ':attribute phải có ít nhất 6 kí tự',
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
         return [
             //
             'name' => 'Tên',

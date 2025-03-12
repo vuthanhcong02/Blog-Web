@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Models\Category;
-use App\Models\User;
 use App\Http\Requests\StorePostRequest;
-use App\Utilities\UploadFile;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\User;
+use App\Utilities\UploadFile;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -21,19 +21,19 @@ class PostController extends Controller
     {
         //
         $keyword = $request->search ?? '';
-        if($keyword != ''){
+        if ($keyword != '') {
             $posts = Post::where('title', 'like', '%'.$keyword.'%')
-                           ->orWhereHas('category', function($query) use ($keyword){
-                               $query->where('name', 'like', '%'.$keyword.'%');
-                           })
-                           ->orWhereHas('user', function($query) use ($keyword){
-                               $query->where('name', 'like', '%'.$keyword.'%');
-                           })
-                            ->orderBy('id', 'desc')->paginate(5);
-        }
-        else{
+                ->orWhereHas('category', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->orWhereHas('user', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                })
+                ->orderBy('id', 'desc')->paginate(5);
+        } else {
             $posts = Post::orderBy('id', 'desc')->paginate(5);
         }
+
         // $posts = Post::orderBy('id', 'desc')->paginate(5);
         return view('dashboard.post.index', compact('posts'));
     }
@@ -46,6 +46,7 @@ class PostController extends Controller
         //
         $categories = Category::all();
         $superUsers = User::where('role', '!=', 'user')->get();
+
         return view('dashboard.post.create', compact('categories', 'superUsers'));
     }
 
@@ -55,7 +56,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         try {
-            $blog = new Post();
+            $blog = new Post;
 
             if ($request->hasFile('image')) {
                 $imagePath = $this->uploadImage($request->file('image'));
@@ -69,11 +70,13 @@ class PostController extends Controller
             $blog->category_id = $request->category_id;
 
             $blog->save();
+
             return redirect()->route('posts.index')->with('success', 'Thêm bài viết thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình thêm bài viết.');
         }
     }
+
     /**
      * Display the specified resource.
      */
@@ -81,6 +84,7 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
+
         return view('dashboard.post.show', compact('post'));
     }
 
@@ -93,6 +97,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $categories = Category::all();
         $superUsers = User::where('role', '!=', 'user')->get();
+
         return view('dashboard.post.edit', compact('categories', 'superUsers', 'post'));
     }
 
@@ -138,6 +143,7 @@ class PostController extends Controller
     protected function uploadImage($imageFile)
     {
         $imagePath = UploadFile::uploadFile($imageFile, 'dashboard/assets/images/blog/');
+
         return $imagePath;
     }
 
@@ -149,10 +155,11 @@ class PostController extends Controller
         //
         $image_name = Post::find($id)->image;
         // dd($image_name);
-        if($image_name !=''){
-            unlink('dashboard/assets/images/blog/' . $image_name);
+        if ($image_name != '') {
+            unlink('dashboard/assets/images/blog/'.$image_name);
         }
         Post::find($id)->delete();
+
         return redirect()->route('posts.index')->with('success', 'Xóa bài viết thành công');
     }
 }

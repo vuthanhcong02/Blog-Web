@@ -30,7 +30,9 @@ class UpdatePostRequest extends FormRequest
             'category_id' => 'required| exists:categories,id',
         ];
     }
-    public function messages(): array{
+
+    public function messages(): array
+    {
         return [
             'image.image' => ':attribute không đúng định dạng',
             'image.mimes' => ':attribute không đúng định dạng',
@@ -48,7 +50,9 @@ class UpdatePostRequest extends FormRequest
 
         ];
     }
-    public function attributes(): array{
+
+    public function attributes(): array
+    {
 
         return [
             'image' => 'Ảnh',

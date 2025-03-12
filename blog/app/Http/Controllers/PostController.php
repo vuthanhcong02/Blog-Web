@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
-use App\Models\Tag;
-use App\Models\PostComment;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Like;
+use App\Models\Post;
+use App\Models\PostComment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
 
 class PostController extends Controller
 {
@@ -25,13 +23,13 @@ class PostController extends Controller
         $search = $request->search ?? '';
         if ($search != '') {
             $posts = Post::where(function ($query) use ($search) {
-                $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('content', 'like', '%' . $search . '%')
+                $query->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('content', 'like', '%'.$search.'%')
                     ->orWhereHas('category', function ($query) use ($search) {
-                        $query->where('name', 'like', '%' . $search . '%');
+                        $query->where('name', 'like', '%'.$search.'%');
                     })
                     ->orWhereHas('tags', function ($query) use ($search) {
-                        $query->where('name', 'like', '%' . $search . '%');
+                        $query->where('name', 'like', '%'.$search.'%');
                     });
             })->orderBy('created_at', 'desc')->paginate(4);
         } else {
@@ -40,6 +38,7 @@ class PostController extends Controller
 
         return view('frontend.blog.index', compact('posts'));
     }
+
     public function getPostByCategory(Request $request, $categoryName)
     {
         $categoryName = str_replace('-', ' ', $categoryName);
@@ -47,24 +46,28 @@ class PostController extends Controller
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
             // echo $category;
-            $posts  = Post::where('category_id', $category->id)->orderBy('created_at', 'desc')->paginate(4);
+            $posts = Post::where('category_id', $category->id)->orderBy('created_at', 'desc')->paginate(4);
         } else {
-            $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
+            $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         }
+
         return view('frontend.blog.index', compact('posts'));
     }
+
     public function getPostByTag(Request $request, $tagName)
     {
         $tag = str_replace('-', ' ', $tagName);
         if ($tag) {
-            $posts  = Post::whereHas('tags', function ($query) use ($tag) {
+            $posts = Post::whereHas('tags', function ($query) use ($tag) {
                 $query->where('name', $tag);
             })->orderBy('created_at', 'desc')->paginate(4);
         } else {
-            $posts  = Post::orderBy('created_at', 'desc')->paginate(4);
+            $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         }
+
         return view('frontend.blog.index', compact('posts'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -91,24 +94,26 @@ class PostController extends Controller
 
         // Sử dụng \ để escape các ký tự đặc biệt trong title
         $escapedTitle = addcslashes($title, '%_');
-        $post = Post::where('title', 'LIKE', '%' . $escapedTitle . '%')->first();
+        $post = Post::where('title', 'LIKE', '%'.$escapedTitle.'%')->first();
 
         if ($post) {
             $post_id = $post->id;
         }
         $comments = Post::findOrFail($post_id);
         $list_comments = $comments->comments()->whereNull('parent_id')->orderBy('created_at', 'desc')->get();
+
         // echo $title;
         return view('frontend.blog.show', compact('post', 'list_comments'));
     }
-    public function postComment(Request $request, String $id)
+
+    public function postComment(Request $request, string $id)
     {
         //
         $title = str_replace('-', ' ', $id);
 
         // Sử dụng \ để escape các ký tự đặc biệt trong title
         $escapedTitle = addcslashes($title, '%_');
-        $post = Post::where('title', 'LIKE', '%' . $escapedTitle . '%')->first();
+        $post = Post::where('title', 'LIKE', '%'.$escapedTitle.'%')->first();
 
         if ($post) {
             $post_id = $post->id;
@@ -127,16 +132,18 @@ class PostController extends Controller
             // ]);
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
-            $comment = new PostComment();
+            $comment = new PostComment;
             $comment->content = $message;
             $comment->user_id = Auth::user()->id; // mặc định test;
             $comment->post_id = $post_id;
             // dd($comment);
             $comment->save();
+
             return redirect()->back();
         }
     }
-    function postReply(Request $request)
+
+    public function postReply(Request $request)
     {
 
         $post_id = $request->post_id;
@@ -155,22 +162,24 @@ class PostController extends Controller
             // ]);
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
-            $comment = new PostComment();
+            $comment = new PostComment;
             $comment->content = $message;
             $comment->user_id = Auth::user()->id; // mặc định test;
             $comment->post_id = $post_id; // mặc định test;
             $comment->parent_id = $parent_id;
             // dd($comment);
             $comment->save();
+
             return redirect()->back();
         }
     }
+
     public function postLike(Request $request)
     {
         $postId = $request->input('post_id');
-        $userId = Auth::user()->id; //test
+        $userId = Auth::user()->id; // test
 
-        //Kiểm tra xem người dùng đã like bài viết chưa
+        // Kiểm tra xem người dùng đã like bài viết chưa
         $like = Like::where('post_id', $postId)
             ->where('user_id', $userId)
             ->first();
@@ -180,24 +189,27 @@ class PostController extends Controller
             $like->delete();
         } else {
             // Chưa thích, thêm like mới
-            $like = new Like();
+            $like = new Like;
             $like->post_id = $postId;
             $like->user_id = $userId;
             $like->save();
         }
         $likeCount = Like::where('post_id', $postId)->count();
+
         return response()->json(['success' => true,
             'likeCount' => $likeCount,
         ]);
     }
-    public function postUnComment(String $id){
+
+    public function postUnComment(string $id)
+    {
         //
         $comment = PostComment::findOrFail($id);
         if (Auth::user()->id === $comment->user_id) {
             // Lấy danh sách comment reply
             $replies = PostComment::where('post_id', $comment->post_id)
-                              ->where('parent_id', $id)
-                              ->get();
+                ->where('parent_id', $id)
+                ->get();
             // dd($replies);
             // Gọi đệ quy cho từng comment reply
             foreach ($replies as $reply) {
@@ -208,29 +220,35 @@ class PostController extends Controller
 
             // // Xóa comment
             PostComment::destroy($id);
+
             return redirect()->back();
-        }else{
+        } else {
             toastr()->timeOut(2000)
-                    ->newestOnTop(true)
-                    ->addError('Bạn không có quyền xóa bình luận người khác.');
+                ->newestOnTop(true)
+                ->addError('Bạn không có quyền xóa bình luận người khác.');
+
             return redirect()->back();
         }
         // dd($replyComments);
 
     }
-    public function postUnCommentReply(String $id){
+
+    public function postUnCommentReply(string $id)
+    {
         $reply = PostComment::findOrFail($id);
         if (Auth::user()->id === $reply->user_id) {
             $reply->delete();
+
             return redirect()->back();
-        }
-        else{
+        } else {
             toastr()->timeOut(2000)
-                    ->newestOnTop(true)
-                    ->addError('Bạn không có quyền xóa bình luận người khác.');
+                ->newestOnTop(true)
+                ->addError('Bạn không có quyền xóa bình luận người khác.');
+
             return redirect()->back();
         }
     }
+
     /**
      * Show the form for editing the specified resource.
      */

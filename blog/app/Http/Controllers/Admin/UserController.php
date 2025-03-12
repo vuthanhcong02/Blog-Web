@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\CheckUserRegisterRequest;
 use App\Http\Requests\CheckUserChangeProfileRequest;
+use App\Http\Requests\CheckUserRegisterRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+
 class UserController extends Controller
 {
     /**
@@ -18,17 +17,17 @@ class UserController extends Controller
     {
         //
         $keyword = $request->search ?? '';
-        if($keyword != ''){
+        if ($keyword != '') {
             $list_users = User::where('name', 'like', '%'.$keyword.'%')
-                            ->orWhere('email', 'like', '%'.$keyword.'%')
-                            ->orWhere('role', 'like', '%'.$keyword.'%')
-                            ->orderBy('id', 'desc')->paginate(5);
-        }
-        else{
+                ->orWhere('email', 'like', '%'.$keyword.'%')
+                ->orWhere('role', 'like', '%'.$keyword.'%')
+                ->orderBy('id', 'desc')->paginate(5);
+        } else {
             $list_users = User::where('role', '!=', 'admin')
-            ->orderBy('id', 'desc')->paginate(5);
+                ->orderBy('id', 'desc')->paginate(5);
         }
-        return view('dashboard.user.index',compact('list_users'));
+
+        return view('dashboard.user.index', compact('list_users'));
     }
 
     /**
@@ -53,8 +52,9 @@ class UserController extends Controller
             'role' => $request->role ?? 'user',
         ];
         User::create($data_infor);
+
         // toastr()->success('Thêm mới thành công');
-        return redirect()->route('users.index')->with('success','Thêm mới người dùng thành công');
+        return redirect()->route('users.index')->with('success', 'Thêm mới người dùng thành công');
     }
 
     /**
@@ -71,8 +71,9 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
-        $user =  User::findOrFail($id);
-        return view('dashboard.user.edit',compact('user'));
+        $user = User::findOrFail($id);
+
+        return view('dashboard.user.edit', compact('user'));
     }
 
     /**
@@ -81,23 +82,23 @@ class UserController extends Controller
     public function update(CheckUserChangeProfileRequest $request, string $id)
     {
         //
-        if(($request->password!=null)){
+        if (($request->password != null)) {
             $data_infor = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'role' => $request->role ?? 'user',
             ];
-        }
-        else{
+        } else {
             $data_infor = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role ?? 'user',
             ];
         }
-        User::where('id',$id)->update($data_infor);
-        return redirect()->route('users.index')->with('success','Cập nhật người dùng thành công');
+        User::where('id', $id)->update($data_infor);
+
+        return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công');
     }
 
     /**
@@ -107,6 +108,7 @@ class UserController extends Controller
     {
         //
         User::destroy($id);
-        return redirect()->route('users.index')->with('success','Xóa người dùng thành công');
+
+        return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
     }
 }

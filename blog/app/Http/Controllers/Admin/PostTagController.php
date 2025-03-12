@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\Tag;
 use App\Models\PostTag;
+use App\Models\Tag;
+use Illuminate\Http\Request;
+
 class PostTagController extends Controller
 {
     /**
@@ -15,8 +16,8 @@ class PostTagController extends Controller
     public function index()
     {
         //
-        $list_post_tags = Post::
-                    orderBy('id', 'desc')->paginate(5);
+        $list_post_tags = Post::orderBy('id', 'desc')->paginate(5);
+
         return view('dashboard.post-tags.index', compact('list_post_tags'));
     }
 
@@ -28,6 +29,7 @@ class PostTagController extends Controller
         //
         $posts = Post::orderBy('id', 'desc')->get();
         $tags = Tag::orderBy('id', 'desc')->get();
+
         return view('dashboard.post-tags.create', compact('posts', 'tags'));
     }
 
@@ -39,7 +41,7 @@ class PostTagController extends Controller
         //
         $data = $request->validate([
             'post_id' => 'required',
-            'tag_id' => 'required|exists:tags,id'
+            'tag_id' => 'required|exists:tags,id',
         ]);
 
         $postTag = PostTag::create($data);
