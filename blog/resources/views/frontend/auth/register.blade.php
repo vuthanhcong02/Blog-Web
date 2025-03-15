@@ -1,21 +1,7 @@
 @extends('frontend.layouts.base')
 @section('title', 'Register')
 @section('body')
-    <!-- Banner Starts Here -->
-    <div class="heading-page header-text mt-2">
-        <section class="page-heading" style="padding: 80px 0 !important">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-content">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <!-- Banner Ends Here -->
-    
+    <x-frontend.common.banner />
     <div class="container" style="padding-top: 50px">
         <div class="row">
             <div class="col d-flex justify-content-center align-items-center">
@@ -70,7 +56,7 @@
 
                     <!-- Register buttons -->
                     <div class="text-center">
-                        <p>Have an account ? <a href="/account/login" style="color: #f48840">Login</a></p>
+                        <p>Have an account ? <a href="{{ route('login') }}" style="color: #f48840">Login</a></p>
                     </div>
                 </form>
             </div>

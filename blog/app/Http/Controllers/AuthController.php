@@ -67,7 +67,7 @@ class AuthController extends Controller
         session(['registered_email' => $request->email]);
         session(['registered_password' => $request->password]);
 
-        return redirect('/account/login');
+        return redirect()->route('login');
     }
 
     public function settingAccount()

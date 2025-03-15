@@ -18,7 +18,7 @@ class CheckUserLogin
     {
         // Kiểm tra xem người dùng đã đăng nhập hay chưa : Chưa đăng nhập =>true
         if (Auth::guest()) {
-            return redirect()->guest('/account/login');
+            return redirect()->route('login');
         }
 
         return $next($request);

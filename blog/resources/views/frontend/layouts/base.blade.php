@@ -72,7 +72,7 @@ https://templatemo.com/tm-551-stand-blog
                         </li>
                         @if(!Auth::check())
                         <li class="nav-item {{request()->segment(2) == 'login' || request()->segment(2) == 'register' ? 'active' : ''}}">
-                            <a class="nav-link" href="/account/login">Login</a>
+                            <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
                         @else
                         <li class="nav-item dropdown " style="cursor: pointer;">
