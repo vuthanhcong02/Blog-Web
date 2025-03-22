@@ -53,7 +53,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
     networks:
       - laravel
-
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - laravel
 networks:
   laravel:
     driver: bridge

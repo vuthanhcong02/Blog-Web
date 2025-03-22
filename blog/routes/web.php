@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/more-post', [HomeController::class, 'loadMore']);
 Route::prefix('/blogs')->group(function () {
     Route::get('/', [PostController::class, 'index']);
@@ -39,12 +39,22 @@ Route::prefix('/blogs')->group(function () {
     Route::delete('/post/{id}/uncommentreply', [PostController::class, 'postUnCommentReply'])->name('post.uncommentreply')->middleware('checkUserLogin');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
-    Route::get('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
-});
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Email xác thực đã được gửi lại!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 
 Route::prefix('/account')->middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);

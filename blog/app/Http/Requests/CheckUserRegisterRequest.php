@@ -23,10 +23,10 @@ class CheckUserRegisterRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|min:3|max:50|regex:/[a-zA-Z0-9]/|unique:users,name',
+            'name' => 'required|min:3|max:50|regex:/[a-zA-Z0-9]/',
             'email' => 'required | email | unique:users,email',
             'password' => 'required | min:6',
-            'repassword' => 'required | min:6 | same:password',
+            'h-captcha-response' => 'required',
         ];
     }
 
@@ -44,9 +44,7 @@ class CheckUserRegisterRequest extends FormRequest
             'email.unique' => ':attribute đã tồn tại',
             'password.required' => ':attribute không được để trống',
             'password.min' => ':attribute phải có ít nhất 6 kí tự',
-            'repassword.required' => ':attribute không được để trống',
-            'repassword.min' => ':attribute phải có ít nhất 6 kí tự',
-            'repassword.same' => ':attribute không trùng khớp',
+            'h-captcha-response.required' => ':attribute không được để trống',
         ];
     }
 
@@ -57,7 +55,7 @@ class CheckUserRegisterRequest extends FormRequest
             'name' => 'Tên',
             'email' => 'Email',
             'password' => 'Mật khẩu',
-            'repassword' => 'Mật khẩu',
+            'h-captcha-response' => 'Captcha',
         ];
     }
 }

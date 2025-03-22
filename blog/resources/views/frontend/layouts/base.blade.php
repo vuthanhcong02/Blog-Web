@@ -144,7 +144,7 @@ https://templatemo.com/tm-551-stand-blog
             }
         }
     </script>
-
+    @stack('javascript')
 </body>
 
 </html>

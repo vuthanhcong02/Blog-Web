@@ -6,7 +6,9 @@ use App\Http\Requests\CheckUserChangeProfileRequest;
 use App\Http\Requests\CheckUserRegisterRequest;
 use App\Http\Requests\CheckUserRequest;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Utilities\UploadFile;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //
+    public function __construct(protected AuthService $authService) {}
+
     public function login(Request $request)
     {
         return view('frontend.auth.login');
@@ -26,7 +30,12 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
         $remember = isset($request->remember) ? true : false;
+
         if (Auth::attempt($dataInfor, $remember)) {
+            // if (!Auth::user()->hasVerifiedEmail()) {
+            //     Auth::logout();
+            //     return back()->with('error', 'Bạn cần xác thực email trước khi đăng nhập.');
+            // }
             // return redirect('/');
             $previousUrl = $request->input('previous');
             if ($previousUrl) {
@@ -47,27 +56,23 @@ class AuthController extends Controller
         return redirect()->back();
     }
 
-    public function register(Request $request)
+    public function register()
     {
-        return view('frontend.auth.register');
+        $hCaptchaSiteKey = config('const.HCAPTCHA_SITE_KEY');
+
+        return view('frontend.auth.register')->with([
+            'hCaptchaSiteKey' => $hCaptchaSiteKey,
+        ]);
     }
 
     public function postRegister(CheckUserRegisterRequest $request)
     {
-        $email_exsist = User::where('email', $request->email)->first();
-        if ($email_exsist) {
-            return redirect()->back()->with('error', 'Email đã tồn tại! Hãy sử dụng email khác!');
+        $user = $this->authService->register($request);
+        if (! $user) {
+            return redirect()->back();
         }
-        $dataInfor = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ];
-        User::create($dataInfor);
-        session(['registered_email' => $request->email]);
-        session(['registered_password' => $request->password]);
 
-        return redirect()->route('login');
+        return redirect()->back()->with('success', 'Vui lòng kiểm tra email để xác nhận tài khoản!');
     }
 
     public function settingAccount()
@@ -108,5 +113,12 @@ class AuthController extends Controller
         User::where('id', Auth::user()->id)->update($dataInfor);
 
         return redirect()->back()->with('success', 'Thông tin đã được lưu thành công');
+    }
+
+    public function verify(EmailVerificationRequest $request)
+    {
+        $this->authService->verify($request);
+
+        return redirect()->route('home');
     }
 }

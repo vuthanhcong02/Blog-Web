@@ -13,8 +13,8 @@
                         </div>
                     @endif
                     <div class="form-outline mb-2">
-                        <label class="form-label" for="form2Example1">Name<sup class="required">*</sup></label>
-                        <input type="text" id="form2Example1" class="form-control" placeholder="Nhập usename ..."
+                        <label class="form-label" for="name">Name<sup class="required">*</sup></label>
+                        <input type="text" id="name" class="form-control" required
                             name="name" value="{{old('name')}}" />
                         @error('name')
                             <div class="text-danger">{{ $message }}</div>
@@ -22,9 +22,9 @@
                     </div>
                     <!-- Email input -->
                     <div class="form-outline mb-2">
-                        <label class="form-label" for="form2Example1">Email address<sup class="required">*</sup></label>
+                        <label class="form-label" for="email">Email address<sup class="required">*</sup></label>
 
-                        <input type="email" id="form2Example1" class="form-control" placeholder="Nhập email ..."
+                        <input type="email" id="email" class="form-control" required
                             name="email" value="{{old('email')}}" />
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>
@@ -33,23 +33,19 @@
 
                     <!-- Password input -->
                     <div class="form-outline mb-2">
-                        <label class="form-label" for="form2Example1">Password<sup class="required">*</sup></label>
+                        <label class="form-label" for="password">Password<sup class="required">*</sup></label>
 
-                        <input type="password" id="form2Example1" class="form-control" placeholder="Nhập password ..."
+                        <input type="password" id="password" class="form-control" required
                             name="password" value="{{old('password')}}" />
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-outline mb-2">
-                        <label class="form-label" for="form2Example2">Comfirm Password<sup class="required">*</sup></label>
 
-                        <input type="password" id="form2Example2" class="form-control" placeholder="Nhập lại password ..."
-                            name="repassword" value="{{old('repassword')}}" />
-                        @error('repassword')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <div class="h-captcha mb-2 d-flex justify-content-center" name="h-captcha-response" data-sitekey="{{ $hCaptchaSiteKey }}"></div>
+                    @error('h-captcha-response')
+                            <div class="text-danger d-flex justify-content-center">{{ $message }}</div>
+                    @enderror
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-block mb-3 font-weight-bold text-white mt-2"
                         style="background-color:#f48840;">Register</button>
@@ -58,8 +54,25 @@
                     <div class="text-center">
                         <p>Have an account ? <a href="{{ route('login') }}" style="color: #f48840">Login</a></p>
                     </div>
+
+                     <!-- Register buttons -->
+                     <div class="text-center">
+                        <p>or login with:</p>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="bi bi-google"></i>
+                            </a>
+                            <a type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 @endsection
+
+@push('javascript')
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+@endpush
