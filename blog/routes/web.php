@@ -39,10 +39,16 @@ Route::prefix('/blogs')->group(function () {
     Route::delete('/post/{id}/uncommentreply', [PostController::class, 'postUnCommentReply'])->name('post.uncommentreply')->middleware('checkUserLogin');
 });
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('register', [AuthController::class, 'postRegister'])->name('register.post');
+    Route::get('/forgot-password', [AuthController::class, 'getViewForgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'getResetForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+});
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

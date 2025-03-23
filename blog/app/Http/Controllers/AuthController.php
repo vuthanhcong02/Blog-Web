@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckUserChangeProfileRequest;
 use App\Http\Requests\CheckUserRegisterRequest;
 use App\Http\Requests\CheckUserRequest;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Utilities\UploadFile;
@@ -120,5 +122,35 @@ class AuthController extends Controller
         $this->authService->verify($request);
 
         return redirect()->route('home');
+    }
+
+    public function getViewForgotPassword()
+    {
+        return view('frontend.auth.forgot-password');
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $status = $this->authService->forgotPassword($request);
+        if (! $status) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra vui lòng thử lại!');
+        }
+
+        return redirect()->back()->with('success', 'Vui lòng kiểm tra email để đổi mật khẩu!');
+    }
+
+    public function getResetForm($token)
+    {
+        return view('frontend.auth.reset-password', ['token' => $token]);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $status = $this->authService->resetPassword($request);
+        if (! $status) {
+            return back()->with('error', 'Có lỗi xảy ra vui lòng thử lại!');
+        }
+
+        return redirect()->route('home')->with('success', 'Thay đổi mật khẩu thành công.');
     }
 }

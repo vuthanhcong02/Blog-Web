@@ -5,7 +5,6 @@
     <div class="container" style="padding-top: 50px">
         <div class="row">
             <div class="col d-flex justify-content-center align-items-center">
-
                 <form style="width: 500px" action="" method="post">
                     @if (Session::has('error'))
                         <div class="alert alert-danger">
@@ -44,7 +43,7 @@
 
                         <div class="col">
                             <!-- Simple link -->
-                            <a href="#!" style="color: #f48840">Forgot password?</a>
+                            <a href="{{ route('password.request') }}" style="color: #f48840">Forgot password?</a>
                         </div>
                     </div>
 

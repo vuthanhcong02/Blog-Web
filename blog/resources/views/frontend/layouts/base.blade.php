@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/templatemo-stand-blog.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <!--
 
 TemplateMo 551 Stand Blog
@@ -31,7 +32,7 @@ https://templatemo.com/tm-551-stand-blog
 -->
 </head>
 
-<body>
+<body class="blog__container">
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -94,7 +95,9 @@ https://templatemo.com/tm-551-stand-blog
         </nav>
     </header>
 
-    @yield('body')
+    <div class="blog__main">
+        @yield('body')
+    </div>
     <footer>
         <div class="container">
             <div class="row">
