@@ -6,16 +6,11 @@
         <div class="row">
             <div class="col d-flex justify-content-center align-items-center">
                 <form style="width: 500px" action="" method="post">
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
                     @csrf
                     <!-- Email input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form2Example1">Email address<sup class="required">*</sup></label>
-                        <input type="email" id="form2Example1" class="form-control" name="email" value="{{session('registered_email')}}" />
+                        <input type="email" id="form2Example1" class="form-control" name="email" value="{{ old('email') }}" required/>
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -24,7 +19,7 @@
                     <!-- Password input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form2Example2">Password<sup class="required">*</sup></label>
-                        <input type="password" id="form2Example2" class="form-control" name="password" value="{{session('registered_password')}}" />
+                        <input type="password" id="form2Example2" class="form-control" name="password" required/>
                         @error('password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -56,11 +51,11 @@
                         <p>Not a member? <a href="{{ route('register') }}" style="color: #f48840">Register</a></p>
                         <p>or sign up with:</p>
                         <div class="d-flex justify-content-center">
-                            <a type="button" class="btn btn-link btn-floating mx-1">
+                            <a type="button" class="btn btn-link btn-floating">
                                 <i class="bi bi-google"></i>
                             </a>
-                            <a type="button" class="btn btn-link btn-floating mx-1">
-                                <i class="bi bi-facebook"></i>
+                            <a type="button" class="btn btn-link btn-floating">
+                                <i class="bi bi-github"></i>
                             </a>
                         </div>
                     </div>

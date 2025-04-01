@@ -23,13 +23,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/templatemo-stand-blog.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-    <!--
-
-TemplateMo 551 Stand Blog
-
-https://templatemo.com/tm-551-stand-blog
-
--->
+    <!--TemplateMo 551 Stand Blog https://templatemo.com/tm-551-stand-blog-->
+    <!-- Import toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body class="blog__container">
@@ -147,7 +143,28 @@ https://templatemo.com/tm-551-stand-blog
             }
         }
     </script>
+    <!-- Import toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @stack('javascript')
+    <script>
+        @if(session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+    
+        @if(session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+    
+        @if(session('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    
+        @if(session('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+    </script>
+    
 </body>
 
 </html>

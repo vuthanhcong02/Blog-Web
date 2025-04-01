@@ -16,7 +16,17 @@ class AuthService
 {
     public function __construct(protected UserRepository $userRepository) {}
 
-    public function login($request): bool {}
+    public function login($request)
+    {
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        $remember = isset($request->remember) ? true : false;
+        $user = Auth::attempt($data, $remember);
+
+        return $user;
+    }
 
     /**
      * Handle post register

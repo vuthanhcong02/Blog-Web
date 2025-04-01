@@ -27,28 +27,13 @@ class AuthController extends Controller
 
     public function postLogin(CheckUserRequest $request)
     {
-        $dataInfor = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-        $remember = isset($request->remember) ? true : false;
+        $user = $this->authService->login($request);
 
-        if (Auth::attempt($dataInfor, $remember)) {
-            // if (!Auth::user()->hasVerifiedEmail()) {
-            //     Auth::logout();
-            //     return back()->with('error', 'Bạn cần xác thực email trước khi đăng nhập.');
-            // }
-            // return redirect('/');
-            $previousUrl = $request->input('previous');
-            if ($previousUrl) {
-                return redirect()->to($previousUrl);
-            } else {
-                return redirect()->intended('/');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Đăng nhập thất bại.Vui lòng kiểm tra lại email hoặc mật khẩu!');
+        if (! $user) {
+            return back()->with(['error' => 'Email hoặc mật khẩu không chính xác']);
         }
-        // dd($dataInfor);
+
+        return redirect()->route('home');
     }
 
     public function logout()
@@ -70,6 +55,7 @@ class AuthController extends Controller
     public function postRegister(CheckUserRegisterRequest $request)
     {
         $user = $this->authService->register($request);
+
         if (! $user) {
             return redirect()->back();
         }
